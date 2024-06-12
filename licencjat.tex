@@ -27,7 +27,8 @@
 \section{Wprowadzenie}
 
 \subsection{Cel pracy}
-Celem pracy jest stworzenie szkieletu aplikacji do tworzenia wszelakich symulacji systemów cząsteczek.
+Celem pracy jest stworzenie szkieletu (ang. framework) aplikacji do tworzenia wszelakich symulacji systemów cząsteczek.
+Przykładowymi symulacjami mogą być: symulacja gazu, płynów, dynamiki białek, co może być przydatne w bioinformatyce.
 W tej pracy przykładowym system cząsteczek będzie 'Gra w życie' Johna Conwaya. Wspomniany przeze mnie szkielet powinien
 móc umożliwiać tworzenie wydajnej symulacji w oparciu o architekturę ECS (Entity Component System) oraz stosować
 w jak najszerszym zakresie techniki wielowątkowości, tam gdzie jest to możliwe i uzasadnione.
@@ -37,7 +38,7 @@ W pracy wykorzystane zostaną następujące technologie:
 \begin{itemize}
     \item Rust - język programowania
     \item \texttt{bevy\_ecs} - biblioteka do ECS
-    \item macroquad - multimedialna biblioteka do wizualizacji symulacji
+    \item \texttt{bevy} - silnik do gier (wyświetlanie symulacji + interakcja z użytkownikiem)
 \end{itemize}
 
 \textbf{Rust} jest językiem programowania, który jest kompilowany do kodu maszynowego, jest to ogromna zaleta
@@ -54,10 +55,9 @@ Postanowiłem użyć tej biblioteki, ponieważ jest prosta w użyciu, wydajna i 
 planistę (ang. scheduler), który pozwala na łatwe tworzenie wielowątkowych aplikacji, gdyż uruchamia systemy (ang. systems) równolegle,
 gdy tylko to możliwe.
 
-\textbf{macroquad} jest biblioteką do tworzenia aplikacji multimedialnych, dostarcza ona funkcjonalności do tworzenia okien,
-renderowania grafiki, obsługi dźwięku, wejścia od użytkownika i wielu innych. Jest to biblioteka napisana w Rustcie, która
-od razu pozwala na tworzenie aplikacji wieloplatformowych, w tym przeglądarki internetowe poprzez WASM oraz nawet ma wsparcie
-dla urządzeń mobilnych (Android).
+\textbf{bevy} jest silnikiem do gier napisanym w Rustcie, oparty jest na architekturze ECS. Postanowiłem
+wykorzystać bevy, gdyż zawiera on wszystko co jest potrzebne do wyświetlania symulacji oraz interakcji z użytkownikiem
+(np. obsługa klawiatury, myszki). Co przyda się przy tworzeniu edytora do symulacji.
 
 \section{ECS}
 \subsection{Wstęp do ECS}
@@ -121,6 +121,18 @@ skalowalnych i wydajnych symulacji, które jednocześnie są łatwe w utrzymaniu
 
 \section{Gra w życie}
 \subsection{Wprowadzenie}
+Gra w życie (ang. Conway's Game of Life) to automat komórkowy wymyślony przez brytyjskiego matematyka Johna Conwaya w 1970 roku.
+Symulacją kieruje się na prostych zasadach, które mogą prowadzić do złożonych zachowań.
+W symulacji mamy planszę, która składa się z komórek. Każda komórka może mieć jeden z dwóch stanów: żywy lub martwy.
+Stan zmienia się w zależności od liczby sąsiadów, którzy są żywi.
+Reguły są następujące:
+\begin{itemize}
+    \item Jeśli żywa komórka ma mniej niż 2 żywych sąsiadów, to umiera z samotności.
+    \item Jeśli żywa komórka ma 2 lub 3 żywych sąsiadów, to żyje dalej.
+    \item Jeśli żywa komórka ma więcej niż 3 żywych sąsiadów, to umiera z przeludnienia.
+\end{itemize}
+Wydawać by się mogło, że zasady są proste, ale symulacja może prowadzić do bardzo złożonych zachowań, włącznie z
+tworzeniem struktur, które same się replikują, bądź poruszają. Oraz jest możliwość zrobienia gry w życie w grze w życie.
 \subsection{Zastosowanie ECS}
 \subsection{Wielowątkowość}
 \subsection{Optymalizacja przestrzenna}
