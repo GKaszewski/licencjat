@@ -71,7 +71,14 @@ Najbardziej znanym przykładem automatu komórkowego jest gra w życie Johna Con
 Te przykłady pokazują, że automaty komórkowe są niezwykle wszechstronnym narzędziem, które znalazło zastosowanie zarówno w teorii, jak i w praktycznych symulacjach.
 = Mój model
 == Wstęp
+Zainspirowany automatami komórkowymi postanowiłem zrobić symulację ewolucji populacji organizmów.
+(...)
 == Opis modelu
+Plansza, bądź świat w którym odbywa się symulacja jest dwuwymiarową siatką, gdzie każdy kafelek może być jednym z czterech rodzajów: woda, las, pustynia i trawa. Każdy typ terenu ma swoje własne właściwości jak np. dostępność pożywienia, prędkość odnowy pożywienia, jak szybko i chętnie organizmy poruszają się po nim.
+
+W mojej symulacji mam dwa rodzaje organizmów: bierne i drapieżniki. Bierne organizmy dostają energię z jedzenia, które jest na danym kafelku. Drapieżniki z kolei dostają energię z jedzenia biernych organizmów.
+
+(...)
 == Implementacja
 == Wyniki
 
