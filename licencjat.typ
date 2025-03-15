@@ -23,7 +23,11 @@
 #set heading(numbering: "1.")
 
 = Streszczenie
-(... do napisania)
+Chciałem napisać symulację ewolucji populacji organizmów w środowisku; symulację zainspirowanymi
+automatami komórkowymi poprzez prostotę zasad, które prowadzą do złożonych zachowań. W pracy
+wykorzystałem język *Rust* z biblioteką *Bevy* do napisania symulacji oraz *Python* z pakietem
+bibliotek do analizy danych do wizualizacji wyników. Wynikiem pracy jest program, który symuluje
+ewolucję organizmów, użytkownik może wprowadzić różne parametry, które wpływają na zachowanie ewolucji i obserwować jak zmieniają się populacje organizmów w zależności od tych parametrów.
 
 = Wprowadzenie
 Celem pracy jest zbadanie możliwości modelowania procesów ewolucyjnych przy wykorzystaniu automatów komórkowych i *Entity Component System*, który w dalszej części pracy będzie przedstawiany jako *ECS*. Praca ma na celu nie tylko pogłębienie teorytycznych podstaw modelowania ewolucji przy użyciu dyskretnych metod obliczeniowych, ale także popularyzację nowoczesnych technik programistycznych.
