@@ -117,6 +117,8 @@ Kod źródłowy jest podzielony na dwie części: symulacja napisana w języku *
 
 Zacznę od prezentacji kodu symulacji i jego objaśnienia.
 
+== Symulacja
+
 #show figure: set align(left)
 
 #figure(```rust
@@ -138,8 +140,6 @@ use serde::Serialize;
 
 W listingu 1 przedstawione są importy, które są potrzebne do napisania symulacji. W symulacji wykorzystuję kilka bibliotek z biblioteki standardowej języka *Rust*, takich jak `std::error::Error` do obsługi błędów, `std::fs` do operacji na plikach, `std::io::Write` do zapisywania danych do pliku. Wykorzystuję również bibliotekę `bevy` do tworzenia gry, `noise` do generowania szumu, który później wykorzystuję do stworzenia planszy, która w miarę przypomina rzeczywisty świat, `rand` do generowania liczb losowych oraz `serde` do serializacji i deserializacji danych, które później wykorzystuję do wizualizacji wyników w języku *Python*.
 
-
-== Symulacja
 
 #figure(```rust
 #[derive(Deserialize, Debug, Serialize, Clone)]
