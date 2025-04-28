@@ -1645,6 +1645,31 @@ Sprawdzam jak zmienia się zdolność przetrwania ofiar i drapieżników w zale�
     caption: "Wykres populacji ofiar i drapieżników w czasie (wysoki poziom mutacji)",
 )
 
+=== Scenariusz 2 - Wpływ drapieżników na populację ofiar
+Sprawdzam czy ofiary bez drapieżników szybciej się rozmnażają i może nawet cierpią z powodu przeludnienia oraz jak silna presja drapieżników wpływa na populację ofiar.
+
+- Konfiguracja pierwszego wariantu scenariusza (brak drapieżników):
+    - Początkowa liczba ofiar: 10
+    - Początkowa liczba drapieżników: 0
+    - Poziom mutacji ofiar: 0.1
+- Konfiguracja drugiego wariantu scenariusza (normalna presja drapieżników):
+    - Początkowa liczba ofiar: 10
+    - Początkowa liczba drapieżników: 5
+    - Poziom mutacji ofiar: 0.1
+    - Poziom mutacji drapieżników: 0.1
+- Konfiguracja trzeciego wariantu scenariusza (wysoka presja drapieżników):
+    - Początkowa liczba ofiar: 10
+    - Początkowa liczba drapieżników: 40
+    - Poziom mutacji ofiar: 0.1
+    - Poziom mutacji drapieżników: 0.1
+
+=== Scenariusz 3 - Wpływ dostępności jedzenia na populację ofiar
+Sprawdzam jak wpływa na populację zmiana zasobności środowiska w jedzenie. Czy organizmy lepiej przystosowują się do terenu bogatego w jedzenie?
+Czy populacja jest w stanie przetrwać w jałowym środowisku?
+- Konfiguracja pierwszego wariantu scenariusza (jałowe środowisko):
+- Konfiguracja drugiego wariantu scenariusza (normalne środowisko):
+- Konfiguracja trzeciego wariantu scenariusza (bardzo bogate środowisko):
+
 = Podsumowanie
 
 #bibliography("citations.bib", title: "Bibliografia")
