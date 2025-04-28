@@ -23,11 +23,11 @@
 #set heading(numbering: "1.")
 
 = Streszczenie
-Chciałem napisać symulację ewolucji populacji organizmów w środowisku; symulację zainspirowanymi
+Chciałem napisać symulację ewolucji populacji ofiar w środowisku; symulację zainspirowanymi
 automatami komórkowymi poprzez prostotę zasad, które prowadzą do złożonych zachowań. W pracy
 wykorzystałem język *Rust* z biblioteką *Bevy* do napisania symulacji oraz *Python* z pakietem
 bibliotek do analizy danych do wizualizacji wyników. Wynikiem pracy jest program, który symuluje
-ewolucję organizmów, użytkownik może wprowadzić różne parametry, które wpływają na zachowanie ewolucji i obserwować jak zmieniają się populacje organizmów w zależności od tych parametrów.
+ewolucję ofiar, użytkownik może wprowadzić różne parametry, które wpływają na zachowanie ewolucji i obserwować jak zmieniają się populacje ofiar w zależności od tych parametrów.
 
 = Wprowadzenie
 Celem pracy jest zbadanie możliwości modelowania procesów ewolucyjnych przy wykorzystaniu automatów komórkowych i *Entity Component System*, który w dalszej części pracy będzie przedstawiany jako *ECS*. Praca ma na celu nie tylko pogłębienie teorytycznych podstaw modelowania ewolucji przy użyciu dyskretnych metod obliczeniowych, ale także popularyzację nowoczesnych technik programistycznych.
@@ -97,19 +97,19 @@ Najbardziej znanym przykładem automatu komórkowego jest gra w życie Johna Con
 
 Te przykłady pokazują, że automaty komórkowe są niezwykle wszechstronnym narzędziem, które znalazło zastosowanie zarówno w teorii, jak i w praktycznych zastosowaniach.
 = Mój model
-Zainspirowany automatami komórkowymi postanowiłem zrobić symulację ewolucji populacji organizmów.
+Zainspirowany automatami komórkowymi postanowiłem zrobić symulację ewolucji populacji ofiar.
 
-Plansza, bądź świat w którym odbywa się symulacja jest dwuwymiarową siatką, gdzie każdy kafelek może być jednym z czterech rodzajów: woda, las, pustynia i trawa. Każdy typ terenu ma swoje własne właściwości jak np. *dostępność pożywienia*, *prędkość odnowy pożywienia*, jak szybko i chętnie organizmy poruszają się po nim.
+Plansza, bądź świat w którym odbywa się symulacja jest dwuwymiarową siatką, gdzie każdy kafelek może być jednym z czterech rodzajów: woda, las, pustynia i trawa. Każdy typ terenu ma swoje własne właściwości jak np. *dostępność pożywienia*, *prędkość odnowy pożywienia*, jak szybko i chętnie ofiary poruszają się po nim.
 
-W mojej symulacji mam dwa rodzaje organizmów: bierne i drapieżniki. Bierne organizmy dostają energię z jedzenia, które jest na danym kafelku. Drapieżniki z kolei dostają energię z jedzenia biernych organizmów. Każdy organizm ma swoje własne cechy jak *energia*, *prędkość*, *rozmiar*, *próg rozmnażania*, *tolerancja terenu*, drapieżniki mają dodatkowo *wydajność polowania* i *próg głodu*.
+W mojej symulacji mam dwa rodzaje ofiar: bierne i drapieżniki. Bierne ofiary dostają energię z jedzenia, które jest na danym kafelku. Drapieżniki z kolei dostają energię z jedzenia biernych ofiar. Każda ofiara ma swoje własne cechy jak *energia*, *prędkość*, *rozmiar*, *próg rozmnażania*, *tolerancja terenu*, drapieżniki mają dodatkowo *wydajność polowania* i *próg głodu*.
 
-Organizm i drapieżnik potrzebuje energii, by żyć. Jeśli zabraknie tego zasobu, jednostka ginie.
-Natomiast, jeśli organizm przekroczy próg rozmnażania, to tworzy nową jednostkę. Co krok czasowy każda jednostka zużywa energię, co więcej im większa bądź szybsza jednostka, tym więcej energii zużywa. Drapieżniki polują na organizmy, gdy ich energia spadnie poniżej progu głodu. Celem drapieżnika jest najbliższy organizm. Każdy drapieżnik ma zasięg polowania, który wynosi jedną komórkę. Wydajność polowania wpływa na to ile energii drapieżnik dostanie z jedzenia.
+Ofiara i drapieżnik potrzebuje energii, by żyć. Jeśli zabraknie tego zasobu, jednostka ginie.
+Natomiast, jeśli ofiara przekroczy próg rozmnażania, to tworzy nową jednostkę. Co krok czasowy każda jednostka zużywa energię, co więcej im większa bądź szybsza jednostka, tym więcej energii zużywa. Drapieżniki polują na ofiary, gdy ich energia spadnie poniżej progu głodu. Celem drapieżnika jest najbliższa ofiara. Każdy drapieżnik ma zasięg polowania, który wynosi jedną komórkę. Wydajność polowania wpływa na to ile energii drapieżnik dostanie z jedzenia.
 
-W sytuacji, gdy na jednej komórce znajduje się więcej niż jeden organizm, to pożywienie dostaje w pierwszej kolejności organizm, który jest największy. Ilość uzyskanej energii z jedzenia również zależy od rodzaju terenu, na którym znajduje się organizm i jego przystosowania do tego terenu.
-Natomiast jeśli na jednej komórce znajduje się więcej organizmów, bądź drapieżników niż ustawiony limit to nadwyżka ginie z powodu przeludnienia.
+W sytuacji, gdy na jednej komórce znajduje się więcej niż jedna ofiara, to pożywienie dostaje w pierwszej kolejności ofiara, która jest największa. Ilość uzyskanej energii z jedzenia również zależy od rodzaju terenu, na którym znajduje się ofiara i jego przystosowania do tego terenu.
+Natomiast jeśli na jednej komórce znajduje się więcej ofiar, bądź drapieżników niż ustawiony limit to nadwyżka ginie z powodu przeludnienia.
 
-Podczas rozmnażania organizm dziedziczy cechy rodzica, ale również może wystąpić mutacja cech.
+Podczas rozmnażania ofiara dziedziczy cechy rodzica, ale również może wystąpić mutacja cech.
 Mutacja polega na zmianie cechy o losowa wartość z przedziału, który zależy od mutacji. Dziecko zaczyna z połową energii rodzica. Takie same zachowanie rozmnażania i mutacji występuje u drapieżników.
 
 == Implementacja
@@ -179,7 +179,7 @@ pub struct Config {
 }
 ```, caption: "Struktury konfiguracyjne")
 
-W listingu 2 przedstawione są struktury konfiguracyjne, które są wykorzystywane do konfiguracji symulacji. Struktura `BiomeDataConfig` przechowuje informacje o dostępności pożywienia na danym terenie oraz maksymalnej dostępności pożywienia. Struktura `Config` przechowuje informacje o szerokości i wysokości planszy, liczbie początkowych organizmów i drapieżników, czy symulacja ma być uruchomiona w trybie bez okna, czy dane mają być zapisywane do pliku, a także parametry początkowe dla organizmów i drapieżników, takie jak _energia_, _prędkość_, _rozmiar_, _próg rozmnażania_, _wydajność polowania_, _próg głodu_, _mutowalność cech_, _próg przeludnienia_ oraz _ziarno generatora liczb losowych_. Struktura ta jest serializowana i deserializowana za pomocą biblioteki `serde` oraz jest dostępna jako zasób w *Bevy*, co powoduje, że jest dostępna dla każdego systemu.
+W listingu 2 przedstawione są struktury konfiguracyjne, które są wykorzystywane do konfiguracji symulacji. Struktura `BiomeDataConfig` przechowuje informacje o dostępności pożywienia na danym terenie oraz maksymalnej dostępności pożywienia. Struktura `Config` przechowuje informacje o szerokości i wysokości planszy, liczbie początkowych ofiar i drapieżników, czy symulacja ma być uruchomiona w trybie bez okna, czy dane mają być zapisywane do pliku, a także parametry początkowe dla ofiar i drapieżników, takie jak _energia_, _prędkość_, _rozmiar_, _próg rozmnażania_, _wydajność polowania_, _próg głodu_, _mutowalność cech_, _próg przeludnienia_ oraz _ziarno generatora liczb losowych_. Struktura ta jest serializowana i deserializowana za pomocą biblioteki `serde` oraz jest dostępna jako zasób w *Bevy*, co powoduje, że jest dostępna dla każdego systemu.
 
 Ziarno jest potrzebne, by symulacja była deterministyczna, a dane były zawsze takie same, co jest ważne przy testowaniu i reprodukowaniu wyników. Plik konfiguracyjny jest w formacie *TOML* i wygląda następująco:
 ```toml
@@ -387,7 +387,7 @@ pub struct TileComponent {
 
 ```, caption: "Komponenty w symulacji")
 
-W listingu 6 przedstawione są struktury reprezentujące jednostki. Struktura `Organism` reprezentuje organizm i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania oraz tolerancji terenu. Tolerancja terenu jest mapą, która przechowuje informacje o tolerancji organizmu na dany teren. Struktura `Predator` reprezentuje drapieżnika i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania, wydajności polowania oraz progu głodu. Struktura `Position` przechowuje informacje o pozycji jednostki na planszy. Struktura `TileComponent` przechowuje informacje o rodzaju terenu na danym kafelku. Ten komponent jest wykorzystywany do wyświetlania odpowiedniego koloru kafelka w zależności od rodzaju terenu na planszy. Wszystkie te struktury są *komponentami* w *ECS* i są dostępne dla systemów.
+W listingu 6 przedstawione są struktury reprezentujące jednostki. Struktura `Organism` reprezentuje ofiarę i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania oraz tolerancji terenu. Tolerancja terenu jest mapą, która przechowuje informacje o tolerancji ofiary na dany teren. Struktura `Predator` reprezentuje drapieżnika i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania, wydajności polowania oraz progu głodu. Struktura `Position` przechowuje informacje o pozycji jednostki na planszy. Struktura `TileComponent` przechowuje informacje o rodzaju terenu na danym kafelku. Ten komponent jest wykorzystywany do wyświetlania odpowiedniego koloru kafelka w zależności od rodzaju terenu na planszy. Wszystkie te struktury są *komponentami* w *ECS* i są dostępne dla systemów.
 
 #figure(```rust
 #[derive(Default, Resource, Serialize)]
@@ -457,7 +457,7 @@ fn main() {
 }
 ```, caption: "Główna funkcja programu")
 
-W listingu 8 przedstawiona jest główna funkcja programu, od której zaczyna się wykonywanie kodu. Na samym początku wczytywany jest plik konfiguracyjny i wypisywana jest jego treść do punktu wyjścia. Następnie pobieram z ustawień konfiguracyjnych flagę, która odpowiada za to czy symulacja powinna być uruchomiona w trybie bezokienkowym czy okienkowym. Tworzę zmienną `app`, która przechowuje aplikację *Bevy*. W zależności od wartości flagi dodaję odpowiednie wtyczki. Wtyczka `MinimalPlugins` dodaje minimalny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie bezokienkowym, a wtyczka `DefaultPlugins` dodaje domyślny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie okienkowym. Następnie wstawiam zasób `World` z nowym światem, któremu przekazuję ustawienia z pliku konfiguracyjnego, zasób `Config` z ustawieniami konfiguracyjnymi, zasób `Generation` z aktualnym pokoleniem oraz dodaję systemy, które mają zostać wykonane w trakcie działania symulacji. Są dwie kategorie systemów `Startup` i `Update`, systemy należące do grupy `Startup` zostaną odpalone tylko raz na początku symulacji, a systemy z grupy `Update` będą wykonywane w każdej klatce gry. Systemy z grupy `Startup` odpowiadają za inicjalizację symulacji oraz potrzebnych plików do zapisywania danych. Systemy z grupy `Update` odpowiadają za aktualizację stanu symulacji, ruch jednostek, polowanie, rozmnażanie, zapisywanie danych, obsługę kamery oraz usuwanie martwych jednostek. Na końcu uruchamiam symulację za pomocą metody `run`. Systemy są wykonywane równolegle, co pozwala na zwiększenie wydajności symulacji. Poza systemem `hunting`, który jest wykonywany przed systemami: `render_organisms`, `render_predators`, `organism_movement`, `predator_movement`, `organism_sync`, `predator_sync`, `despawn_dead_organisms`, `despawn_dead_predators`, `regenerate_food`, `consume_food`, `overcrowding`, `biome_adaptation`, `reproduction`, `predator_reproduction`, `increment_generation`, `log_organism_data`, `log_world_data`, `handle_camera_movement`. Jest to spowodowane tym, że gdy organizm zostanie zjedzony, to musi zniknąć z planszy, przez co czasami gdy system odpowiedzialny za polowanie się wykonywał to próbował zjeść organizm, który już nie istniał i powodowało to błąd krytyczny w programie. W ten sposób unikam tego problemu. Niestety powoduje to, że planer (ang. _scheduler_) musi wykonać więcej pracy i może to wpłynąć na wydajność symulacji.
+W listingu 8 przedstawiona jest główna funkcja programu, od której zaczyna się wykonywanie kodu. Na samym początku wczytywany jest plik konfiguracyjny i wypisywana jest jego treść do punktu wyjścia. Następnie pobieram z ustawień konfiguracyjnych flagę, która odpowiada za to czy symulacja powinna być uruchomiona w trybie bezokienkowym czy okienkowym. Tworzę zmienną `app`, która przechowuje aplikację *Bevy*. W zależności od wartości flagi dodaję odpowiednie wtyczki. Wtyczka `MinimalPlugins` dodaje minimalny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie bezokienkowym, a wtyczka `DefaultPlugins` dodaje domyślny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie okienkowym. Następnie wstawiam zasób `World` z nowym światem, któremu przekazuję ustawienia z pliku konfiguracyjnego, zasób `Config` z ustawieniami konfiguracyjnymi, zasób `Generation` z aktualnym pokoleniem oraz dodaję systemy, które mają zostać wykonane w trakcie działania symulacji. Są dwie kategorie systemów `Startup` i `Update`, systemy należące do grupy `Startup` zostaną odpalone tylko raz na początku symulacji, a systemy z grupy `Update` będą wykonywane w każdej klatce gry. Systemy z grupy `Startup` odpowiadają za inicjalizację symulacji oraz potrzebnych plików do zapisywania danych. Systemy z grupy `Update` odpowiadają za aktualizację stanu symulacji, ruch jednostek, polowanie, rozmnażanie, zapisywanie danych, obsługę kamery oraz usuwanie martwych jednostek. Na końcu uruchamiam symulację za pomocą metody `run`. Systemy są wykonywane równolegle, co pozwala na zwiększenie wydajności symulacji. Poza systemem `hunting`, który jest wykonywany przed systemami: `render_organisms`, `render_predators`, `organism_movement`, `predator_movement`, `organism_sync`, `predator_sync`, `despawn_dead_organisms`, `despawn_dead_predators`, `regenerate_food`, `consume_food`, `overcrowding`, `biome_adaptation`, `reproduction`, `predator_reproduction`, `increment_generation`, `log_organism_data`, `log_world_data`, `handle_camera_movement`. Jest to spowodowane tym, że gdy ofiara zostanie zjedzona, to musi zniknąć z planszy, przez co czasami gdy system odpowiedzialny za polowanie się wykonywał to próbował zjeść ofiarę, który już nie istniała i powodowało to błąd krytyczny w programie. W ten sposób unikam tego problemu. Niestety powoduje to, że planer (ang. _scheduler_) musi wykonać więcej pracy i może to wpłynąć na wydajność symulacji.
 
 #figure(```rust
 fn spawn_world(
@@ -528,7 +528,7 @@ fn spawn_organisms(mut commands: Commands, world: Res<World>, config: Res<Config
         ));
     }
 }
-```, caption: "System tworzący organizmy")
+```, caption: "System tworzący ofiary")
 
 #figure(```rust
 fn get_biome_tolerance(tile_biome: &Biome, seed: u64) -> HashMap<Biome, f32> {
@@ -547,9 +547,9 @@ fn get_biome_tolerance(tile_biome: &Biome, seed: u64) -> HashMap<Biome, f32> {
 
     biome_tolerance
 }
-```, caption: "Funkcja generująca tolerancję terenu dla organizmu")
+```, caption: "Funkcja generująca tolerancję terenu dla ofiary")
 
-Listing 10 przedstawia system `spawn_organisms`, który odpowiada za stworzenie organizmów na planszy. Dla każdego organizmu losowana jest pozycja na planszy. Następnie dla każdego organizmu tworzona jest tolerancja terenu na podstawie rodzaju terenu, na którym znajduje się organizm. Tolerancja terenu jest mapą, która przechowuje informacje o tolerancji organizmu na dany teren. Im bliżej tolerancji terenu do 1.0, tym organizm lepiej przystosowany jest do danego terenu. Im bliżej tolerancji terenu do 0.0, tym organizm gorzej przystosowany jest do danego terenu. Tolerancja terenu jest losowana z przedziału [0.1, 0.8] dla terenów, na których organizm nie znajduje się oraz z przedziału [1.0, 1.5] dla terenu, na którym organizm znajduje się. W ten sposób organizmy są bardziej przystosowane do terenu, na którym się znajdują.
+Listing 10 przedstawia system `spawn_organisms`, który odpowiada za stworzenie ofiar na planszy. Dla każdego ofiary losowana jest pozycja na planszy. Następnie dla każdego ofiary tworzona jest tolerancja terenu na podstawie rodzaju terenu, na którym znajduje się ofiara. Tolerancja terenu jest mapą, która przechowuje informacje o tolerancji ofiary na dany teren. Im bliżej tolerancji terenu do 1.0, tym ofiara lepiej przystosowany jest do danego terenu. Im bliżej tolerancji terenu do 0.0, tym ofiara gorzej przystosowany jest do danego terenu. Tolerancja terenu jest losowana z przedziału [0.1, 0.8] dla terenów, na których ofiara nie znajduje się oraz z przedziału [1.0, 1.5] dla terenu, na którym ofiara znajduje się. W ten sposób ofiary są bardziej przystosowane do terenu, na którym się znajdują.
 
 #figure(```rust
 fn spawn_predators(mut commands: Commands, world: Res<World>, config: Res<Config>) {
@@ -603,7 +603,7 @@ fn render_organisms(
         ));
     }
 }
-```, caption: "System wyświetlający organizmy")
+```, caption: "System wyświetlający ofiary")
 
 #figure(```rust
 
@@ -633,7 +633,7 @@ fn render_predators(
 }
 ```, caption: "System wyświetlający drapieżniki")
 
-Listingi 13 i 14 przedstawiają systemy `render_organisms` i `render_predators`, które odpowiadają za wyświetlenie organizmów i drapieżników na planszy. Dla każdego organizmu i drapieżnika tworzony jest odpowiedni kolor i kształt, a następnie tworzony jest odpowiedni obiekt na planszy z odpowiednim kolorem i pozycją. Organizmy są wyświetlane jako koła, a drapieżniki jako prostokąty. Organizmy są zielonkawe, a drapieżniki czerwone. W tych systemach argumenty funkcji są wyjątkowe dla ECS. `Query` jest strukturą, która przechowuje zbiór encji, które spełniają określone kryteria. W tym przypadku zwraca encje, które dla systemu `render_organisms` nie posiadają komponentu `Predator` oraz `Mesh2d`, a dla systemu `render_predators` nie posiadają komponentu `Organism` oraz `Mesh2d`. Natomiast posiadają komponent `Position`. Dzięki temu system dostaje tylko te encje, które zawierają tylko te dane, które są mu potrzebne do działania.
+Listingi 13 i 14 przedstawiają systemy `render_organisms` i `render_predators`, które odpowiadają za wyświetlenie ofiar i drapieżników na planszy. Dla każdego ofiary i drapieżnika tworzony jest odpowiedni kolor i kształt, a następnie tworzony jest odpowiedni obiekt na planszy z odpowiednim kolorem i pozycją. Organizmy są wyświetlane jako koła, a drapieżniki jako prostokąty. Organizmy są zielonkawe, a drapieżniki czerwone. W tych systemach argumenty funkcji są wyjątkowe dla ECS. `Query` jest strukturą, która przechowuje zbiór encji, które spełniają określone kryteria. W tym przypadku zwraca encje, które dla systemu `render_organisms` nie posiadają komponentu `Predator` oraz `Mesh2d`, a dla systemu `render_predators` nie posiadają komponentu `Organism` oraz `Mesh2d`. Natomiast posiadają komponent `Position`. Dzięki temu system dostaje tylko te encje, które zawierają tylko te dane, które są mu potrzebne do działania.
 
 #show figure: set block(breakable: true)
 
@@ -702,9 +702,9 @@ fn organism_movement(
         }
     }
 }
-```, caption: "System odpowiedzialny za ruch organizmów")
+```, caption: "System odpowiedzialny za ruch ofiar")
 
-W listingu 15 przedstawiony jest system `organism_movement`, który odpowiada za ruch organizmów na planszy. Dla każdego organizmu losowana jest nowa pozycja na planszy. Następnie dla każdego organizmu obliczam najlepszy kierunek ruchu na podstawie kosztu ruchu. Koszt ruchu zależy od rodzaju terenu, na którym znajduje się organizm oraz tolerancji terenu. Im większa tolerancja terenu, tym mniejszy koszt ruchu. Im mniejsza tolerancja terenu, tym większy koszt ruchu. Koszt ruchu jest losowany z przedziału [0.0, 5.0]. Następnie obliczam nową pozycję organizmu na planszy oraz obliczam zużytą energię na podstawie prędkości i rozmiaru organizmu. Jeśli organizm znajduje się na wodzie, to ustawiam jego energię na -1.0, co oznacza, że organizm umiera. W ten sposób organizmy są bardziej przystosowane do terenu, na którym się znajdują. Ruch jest dozwolony w 8 kierunkach: góra, dół, lewo, prawo oraz po skosach. Energia organizmu zmniejsza się w zależności od prędkości i rozmiaru organizmu. Im większa prędkość i rozmiar organizmu, tym więcej energii zużywa na ruch.
+W listingu 15 przedstawiony jest system `organism_movement`, który odpowiada za ruch ofiar na planszy. Dla każdego ofiary losowana jest nowa pozycja na planszy. Następnie dla każdego ofiary obliczam najlepszy kierunek ruchu na podstawie kosztu ruchu. Koszt ruchu zależy od rodzaju terenu, na którym znajduje się ofiara oraz tolerancji terenu. Im większa tolerancja terenu, tym mniejszy koszt ruchu. Im mniejsza tolerancja terenu, tym większy koszt ruchu. Koszt ruchu jest losowany z przedziału [0.0, 5.0]. Następnie obliczam nową pozycję ofiary na planszy oraz obliczam zużytą energię na podstawie prędkości i rozmiaru ofiary. Jeśli ofiara znajduje się na wodzie, to ustawiam jego energię na -1.0, co oznacza, że ofiara umiera. W ten sposób ofiary są bardziej przystosowane do terenu, na którym się znajdują. Ruch jest dozwolony w 8 kierunkach: góra, dół, lewo, prawo oraz po skosach. Energia ofiary zmniejsza się w zależności od prędkości i rozmiaru ofiary. Im większa prędkość i rozmiar ofiary, tym więcej energii zużywa na ruch.
 
 #figure(```rust
 fn predator_movement(
@@ -886,9 +886,9 @@ fn consume_food(mut world: ResMut<World>, mut query: Query<(Entity, &mut Organis
         }
     }
 }
-```, caption: "System spożywania dla organizmów")
+```, caption: "System spożywania dla ofiar")
 
-W listingu 20 przedstawiony jest system `consume_food`, który odpowiada za spożywanie jedzenia przez organizmy. Na początku zbieram organizmy na danym kafelku. Następnie sprawdzam czy na danym kafelku jest dostępne jedzenie. Jeśli nie ma jedzenia, to przechodzę do następnego kafelka. Potem sortuję organizmy na danym kafelku od największego do najmniejszego. Następnie tworzę zmienną, która przechowuje informację o tym ile jedzenia zostało na danym kafelku. Potem dla każdego organizmu obliczam ile jedzenia potrzebuje na podstawie rozmiaru oraz prędkości organizmu. Odejmuję od dostępnego jedzenia ilość jedzenia, którą zjadł organizm. Następnie dodaję energię organizmowi na podstawie zjedzonego jedzenia pomnożonego przez arbitralną wartość 2.0. Na końcu odejmuję zjedzone jedzenie od dostępnego jedzenia na kafelku. Jeśli organizm zje więcej jedzenia niż jest dostępne na kafelku, to zje tylko tyle ile jest dostępne. Natomiast jak jedzenie na kafelku się skończy, to organizmy nie będą mogły zjeść jedzenia z tego kafelka.
+W listingu 20 przedstawiony jest system `consume_food`, który odpowiada za spożywanie jedzenia przez ofiary. Na początku zbieram ofiary na danym kafelku. Następnie sprawdzam czy na danym kafelku jest dostępne jedzenie. Jeśli nie ma jedzenia, to przechodzę do następnego kafelka. Potem sortuję ofiary na danym kafelku od największego do najmniejszego. Następnie tworzę zmienną, która przechowuje informację o tym ile jedzenia zostało na danym kafelku. Potem dla każdego ofiary obliczam ile jedzenia potrzebuje na podstawie rozmiaru oraz prędkości ofiary. Odejmuję od dostępnego jedzenia ilość jedzenia, którą zjadł ofiara. Następnie dodaję energię organizmowi na podstawie zjedzonego jedzenia pomnożonego przez arbitralną wartość 2.0. Na końcu odejmuję zjedzone jedzenie od dostępnego jedzenia na kafelku. Jeśli ofiara zje więcej jedzenia niż jest dostępne na kafelku, to zje tylko tyle ile jest dostępne. Natomiast jak jedzenie na kafelku się skończy, to ofiary nie będą mogły zjeść jedzenia z tego kafelka.
 
 #figure(```rust
 
@@ -913,9 +913,9 @@ fn biome_adaptation(mut query: Query<(&mut Organism, &Position)>, world: Res<Wor
         }
     }
 }
-```, caption: "System adaptacji do terenu dla organizmów")
+```, caption: "System adaptacji do terenu dla ofiar")
 
-W listingu 21 przedstawiony jest system `biome_adaptation`, który odpowiada za adaptację organizmów do terenu. Ten system odpowiada za bierne wpływanie na energię organizmów. W zależności od rodzaju terenu, na którym znajduje się organizm, energia organizmu zmniejsza się lub zwiększa. Lasy są bogate w jedzenie, więc organizmy zyskują energię, pustynie są ubogie w jedzenie, więc organizmy tracą energię, woda nie jest dobrym miejscem dla organizmów, więc organizmy tracą całą energię, łąki są dobre do pasienia, więc organizmy zyskują energię. Tolerancja terenu wpływa na to, jak bardzo organizm jest przystosowany do danego terenu, co z kolei zwiększa bądź zmniejsza ilość zyskanej lub utraconej energii.
+W listingu 21 przedstawiony jest system `biome_adaptation`, który odpowiada za adaptację ofiar do terenu. Ten system odpowiada za bierne wpływanie na energię ofiar. W zależności od rodzaju terenu, na którym znajduje się ofiara, energia ofiary zmniejsza się lub zwiększa. Lasy są bogate w jedzenie, więc ofiary zyskują energię, pustynie są ubogie w jedzenie, więc ofiary tracą energię, woda nie jest dobrym miejscem dla ofiar, więc ofiary tracą całą energię, łąki są dobre do pasienia, więc ofiary zyskują energię. Tolerancja terenu wpływa na to, jak bardzo ofiara jest przystosowany do danego terenu, co z kolei zwiększa bądź zmniejsza ilość zyskanej lub utraconej energii.
 
 #figure(```rust
 fn reproduction(
@@ -975,11 +975,11 @@ fn reproduction(
         }
     }
 }
-```, caption: "System rozmnażania dla organizmów")
+```, caption: "System rozmnażania dla ofiar")
 
-W listingu 22 przedstawiony jest system `reproduction`, który odpowiada za rozmnażanie organizmów. Dla każdego organizmu sprawdzam czy jego energia jest większa od progu reprodukcji. Jeśli tak, to tworzę nowego potomka na podstawie ustawień konfiguracyjnych. Następnie losuję mutacje dla nowego potomka. Mutacje są losowane z przedziału `[-mutation_factor, mutation_factor]`. Następnie tworzę nowego potomka na podstawie mutacji. Potomek ma połowę energii rodzica, prędkość, rozmiar oraz próg reprodukcji są mutowane. Następnie losuję pozycję potomka w sąsiedztwie rodzica. Na końcu zmniejszam energię rodzica o połowę. Dzięki temu organizmy mogą się rozmnażać i przekazywać swoje cechy potomstwu.
+W listingu 22 przedstawiony jest system `reproduction`, który odpowiada za rozmnażanie ofiar. Dla każdego ofiary sprawdzam czy jego energia jest większa od progu reprodukcji. Jeśli tak, to tworzę nowego potomka na podstawie ustawień konfiguracyjnych. Następnie losuję mutacje dla nowego potomka. Mutacje są losowane z przedziału `[-mutation_factor, mutation_factor]`. Następnie tworzę nowego potomka na podstawie mutacji. Potomek ma połowę energii rodzica, prędkość, rozmiar oraz próg reprodukcji są mutowane. Następnie losuję pozycję potomka w sąsiedztwie rodzica. Na końcu zmniejszam energię rodzica o połowę. Dzięki temu ofiary mogą się rozmnażać i przekazywać swoje cechy potomstwu.
 
-Jeśli liczba organizmów i drapieżników przekroczy maksymalną liczbę jednostek na planszy, to nie będą mogły się rozmnażać. Dzięki temu ograniczam liczbę jednostek na planszy.
+Jeśli liczba ofiar i drapieżników przekroczy maksymalną liczbę jednostek na planszy, to nie będą mogły się rozmnażać. Dzięki temu ograniczam liczbę jednostek na planszy.
 
 #figure(```rust
 fn hunting(
@@ -1004,7 +1004,7 @@ fn hunting(
 }
 ```)
 
-W listingu 23 przedstawiony jest system `hunting` odpowiedzialny za polowanie drapieżników na organizmy. Dla każdego drapieżnika sprawdzam czy jego energia jest mniejsza od progu sytości. Jeśli tak, to sprawdzam czy drapieżnik znajduje się na tym samym kafelku co ofiara. Jeśli tak, to drapieżnik zjada ofiarę i zyskuje energię na podstawie rozmiaru ofiary oraz efektywności polowania drapieżnika. Następnie usuwam ofiarę z planszy. Dzięki temu drapieżniki mogą polować na organizmy i zyskiwać energię.
+W listingu 23 przedstawiony jest system `hunting` odpowiedzialny za polowanie drapieżników na ofiary. Dla każdego drapieżnika sprawdzam czy jego energia jest mniejsza od progu sytości. Jeśli tak, to sprawdzam czy drapieżnik znajduje się na tym samym kafelku co ofiara. Jeśli tak, to drapieżnik zjada ofiarę i zyskuje energię na podstawie rozmiaru ofiary oraz efektywności polowania drapieżnika. Następnie usuwam ofiarę z planszy. Dzięki temu drapieżniki mogą polować na ofiary i zyskiwać energię.
 
 #figure(```rust
 
@@ -1061,9 +1061,9 @@ fn predator_reproduction(
 }
 ```, caption: "System rozmnażania dla drapieżników")
 
-System rozmnażania dla drapieżników przedstawiony w listingu 24 działa analogicznie do systemu rozmnażania dla organizmów. Dla każdego drapieżnika sprawdzam czy jego energia jest większa od progu reprodukcji. Jeśli tak, to tworzę nowego potomka na podstawie ustawień konfiguracyjnych. Następnie losuję mutacje dla nowego potomka. Mutacje są losowane z przedziału `[-mutation_factor, mutation_factor]`. Następnie tworzę nowego potomka na podstawie mutacji. Potomek ma połowę energii rodzica, prędkość, rozmiar, efektywność polowania, próg sytości oraz próg reprodukcji są mutowane. Następnie losuję pozycję potomka w sąsiedztwie rodzica. Na końcu zmniejszam energię rodzica o połowę. Dzięki temu drapieżniki mogą się rozmnażać i przekazywać swoje cechy potomstwu.
+System rozmnażania dla drapieżników przedstawiony w listingu 24 działa analogicznie do systemu rozmnażania dla ofiar. Dla każdego drapieżnika sprawdzam czy jego energia jest większa od progu reprodukcji. Jeśli tak, to tworzę nowego potomka na podstawie ustawień konfiguracyjnych. Następnie losuję mutacje dla nowego potomka. Mutacje są losowane z przedziału `[-mutation_factor, mutation_factor]`. Następnie tworzę nowego potomka na podstawie mutacji. Potomek ma połowę energii rodzica, prędkość, rozmiar, efektywność polowania, próg sytości oraz próg reprodukcji są mutowane. Następnie losuję pozycję potomka w sąsiedztwie rodzica. Na końcu zmniejszam energię rodzica o połowę. Dzięki temu drapieżniki mogą się rozmnażać i przekazywać swoje cechy potomstwu.
 
-Analogicznie do systemu reprodukcji organizmów, u drapieżników również sprawdzana jest ilość jednostek na planszy. Jeśli liczba jednostek przekroczy maksymalną liczbę jednostek na planszy, to drapieżniki nie będą mogły się rozmnażać.
+Analogicznie do systemu reprodukcji ofiar, u drapieżników również sprawdzana jest ilość jednostek na planszy. Jeśli liczba jednostek przekroczy maksymalną liczbę jednostek na planszy, to drapieżniki nie będą mogły się rozmnażać.
 
 #figure(```rust
 fn overcrowding(
@@ -1124,7 +1124,7 @@ fn overcrowding(
 }
 ```, caption: "System przeludnienia")
 
-System przeludnienia przedstawiony w listingu 25 odpowiada za usuwanie jednostek z planszy, gdy przekroczona zostanie maksymalna liczba jednostek na kafelku. Dla każdego kafelka na planszy zbieram organizmy i drapieżniki. Następnie sprawdzam czy liczba organizmów na kafelku przekracza próg przeludnienia dla organizmów. Jeśli tak, to sortuję organizmy na kafelku od najmniej energii do najwięcej energii. Następnie usuwam organizmy, które przekraczają próg przeludnienia dla organizmów. Analogicznie postępuję z drapieżnikami. Dzięki temu ograniczam liczbę jednostek na kafelku.
+System przeludnienia przedstawiony w listingu 25 odpowiada za usuwanie jednostek z planszy, gdy przekroczona zostanie maksymalna liczba jednostek na kafelku. Dla każdego kafelka na planszy zbieram ofiary i drapieżniki. Następnie sprawdzam czy liczba ofiar na kafelku przekracza próg przeludnienia dla ofiar. Jeśli tak, to sortuję ofiary na kafelku od najmniej energii do najwięcej energii. Następnie usuwam ofiary, które przekraczają próg przeludnienia dla ofiar. Analogicznie postępuję z drapieżnikami. Dzięki temu ograniczam liczbę jednostek na kafelku.
 
 #figure(```rust
 fn increment_generation(mut generation: ResMut<Generation>) {
@@ -1195,7 +1195,7 @@ fn log_world_data(
     writeln!(file, "{}", json).expect("Failed to write to log file");
 }
 ```)
-W listingu 28 przedstawiony jest system `log_world_data`, który odpowiada za zapis danych symulacji do pliku. Jeśli w konfiguracji ustawiono, że dane mają być zapisywane do pliku, to otwieram plik `world_data.jsonl` w trybie dodawania i tworzenia pliku, a następnie zapisuję dane symulacji do pliku. Dane symulacji zawierają numer pokolenia, stan planszy, ustawienia konfiguracyjne, organizmy oraz drapieżniki na planszy. Dane są zapisywane w formacie JSON.
+W listingu 28 przedstawiony jest system `log_world_data`, który odpowiada za zapis danych symulacji do pliku. Jeśli w konfiguracji ustawiono, że dane mają być zapisywane do pliku, to otwieram plik `world_data.jsonl` w trybie dodawania i tworzenia pliku, a następnie zapisuję dane symulacji do pliku. Dane symulacji zawierają numer pokolenia, stan planszy, ustawienia konfiguracyjne, ofiary oraz drapieżniki na planszy. Dane są zapisywane w formacie JSON.
 
 #figure(```rust
 fn handle_camera_movement(
@@ -1341,7 +1341,7 @@ predator_avg_satiation_threshold_list = []
 average_food_per_generation = []
 ```, caption: "Inicjalizacja zmiennych")
 
-W powyższym listingu tworzę zmienne, które będą mi potrzebne do stworzenia wykresów. Zmienna `jsonl_file` przechowuje ścieżkę do pliku z danymi. Zmienne `generations`, `organism_count`, `predator_count`, `width`, `height` przechowują informacje o pokoleniach, liczbie organizmów, liczbie drapieżników, szerokości i wysokości planszy. Zmienna `gen_list` przechowuje listę pokoleń, `organism_counts` i `predator_counts` przechowują listę liczby organizmów i drapieżników w każdym pokoleniu. Zmienna `biome_counts` przechowuje liczbę kafelków z danym rodzajem terenu w każdym pokoleniu. Zmienna `heatmap_grid` przechowuje mapę cieplną, a `last_snapshot` ostatni stan planszy. Pozostałe zmienne przechowują średnie wartości cech organizmów i drapieżników w każdym pokoleniu.
+W powyższym listingu tworzę zmienne, które będą mi potrzebne do stworzenia wykresów. Zmienna `jsonl_file` przechowuje ścieżkę do pliku z danymi. Zmienne `generations`, `organism_count`, `predator_count`, `width`, `height` przechowują informacje o pokoleniach, liczbie ofiar, liczbie drapieżników, szerokości i wysokości planszy. Zmienna `gen_list` przechowuje listę pokoleń, `organism_counts` i `predator_counts` przechowują listę liczby ofiar i drapieżników w każdym pokoleniu. Zmienna `biome_counts` przechowuje liczbę kafelków z danym rodzajem terenu w każdym pokoleniu. Zmienna `heatmap_grid` przechowuje mapę cieplną, a `last_snapshot` ostatni stan planszy. Pozostałe zmienne przechowują średnie wartości cech ofiar i drapieżników w każdym pokoleniu.
 
 #figure(```python
 with open(jsonl_file, 'r') as f:
@@ -1411,7 +1411,7 @@ with open(jsonl_file, 'r') as f:
             print(f"Processed {len(gen_list)} generations...")
 ```, caption: "Przetwarzanie danych")
 
-Wczytuję dane z pliku `world_data.jsonl` i przetwarzam je, co ważne dane przetwarzane są linijka po linijce co jest istotne, gdyż plik może być bardzo duży i w przeciwnym wypadku program mógłby zużyć dużo pamięci, której komputer niekoniecznie posiada. Wczytuję dane o pokoleniu, liczbie organizmów, liczbie drapieżników, szerokości i wysokości planszy. Tworzę mapę cieplną planszy, a także obliczam średnie wartości cech organizmów i drapieżników w każdym pokoleniu. Obliczam również liczbę kafelków z danym rodzajem terenu w każdym pokoleniu oraz średnią ilość jedzenia na planszy. Dodatkowo co 100 pokoleń wypisuję informację o przetworzonych pokoleniach.
+Wczytuję dane z pliku `world_data.jsonl` i przetwarzam je, co ważne dane przetwarzane są linijka po linijce co jest istotne, gdyż plik może być bardzo duży i w przeciwnym wypadku program mógłby zużyć dużo pamięci, której komputer niekoniecznie posiada. Wczytuję dane o pokoleniu, liczbie ofiar, liczbie drapieżników, szerokości i wysokości planszy. Tworzę mapę cieplną planszy, a także obliczam średnie wartości cech ofiar i drapieżników w każdym pokoleniu. Obliczam również liczbę kafelków z danym rodzajem terenu w każdym pokoleniu oraz średnią ilość jedzenia na planszy. Dodatkowo co 100 pokoleń wypisuję informację o przetworzonych pokoleniach.
 
 #figure(```python
 plt.figure(figsize=(10, 5))
@@ -1425,7 +1425,7 @@ plt.grid(True)
 plt.savefig('population_trends.png')
 ```, caption: "Wykres populacji w czasie")
 
-Na powyższym wykresie przedstawiam populację organizmów i drapieżników w czasie. Na osi X znajduje się numer pokolenia, a na osi Y liczba jednostek. Wykres przedstawia zmiany populacji organizmów i drapieżników w czasie.
+Na powyższym wykresie przedstawiam populację ofiar i drapieżników w czasie. Na osi X znajduje się numer pokolenia, a na osi Y liczba jednostek. Wykres przedstawia zmiany populacji ofiar i drapieżników w czasie.
 
 #figure(```python
 plt.figure(figsize=(8, 6))
@@ -1448,9 +1448,9 @@ plt.title("Energy Distribution of Organisms and Predators")
 plt.legend()
 plt.grid(True)
 plt.savefig("energy_distribution.png")
-```, caption: "Rozkład energii organizmów i drapieżników")
+```, caption: "Rozkład energii ofiar i drapieżników")
 
-Na powyższym wykresie przedstawiam rozkład energii organizmów i drapieżników. Na osi X znajduje się poziom energii, a na osi Y częstotliwość. Wykres przedstawia rozkład energii organizmów i drapieżników.
+Na powyższym wykresie przedstawiam rozkład energii ofiar i drapieżników. Na osi X znajduje się poziom energii, a na osi Y częstotliwość. Wykres przedstawia rozkład energii ofiar i drapieżników.
 
 #figure(```python
 df_biomes = pd.DataFrame(biome_counts, index=generations)
@@ -1463,7 +1463,7 @@ plt.grid(True)
 plt.savefig("biome_trends.png")
 ```, caption: "Trendy preferencji terenowych w czasie")
 
-Na powyższym wykresie przedstawiam trendy preferencji terenowych organizmów w czasie. Na osi X znajduje się numer pokolenia, a na osi Y liczba jednostek. Wykres przedstawia zmiany preferencji terenowych organizmów w czasie. Każdy kolor odpowiada innemu rodzajowi terenu.
+Na powyższym wykresie przedstawiam trendy preferencji terenowych ofiar w czasie. Na osi X znajduje się numer pokolenia, a na osi Y liczba jednostek. Wykres przedstawia zmiany preferencji terenowych ofiar w czasie. Każdy kolor odpowiada innemu rodzajowi terenu.
 
 #figure(```python
 plt.figure(figsize=(10, 5))
@@ -1516,9 +1516,9 @@ axes[2].grid(True)
 
 plt.tight_layout()
 plt.savefig("traits_evolution.png")
-```, caption: "Wykresy ewolucji cech organizmów i drapieżników")
+```, caption: "Wykresy ewolucji cech ofiar i drapieżników")
 
-Na powyższych wykresach przedstawiam ewolucję cech organizmów i drapieżników w czasie. Na pierwszym wykresie przedstawiam średni rozmiar organizmów i drapieżników w czasie. Na drugim wykresie przedstawiam średnią prędkość organizmów i drapieżników w czasie. Na trzecim wykresie przedstawiam średnią energię organizmów i drapieżników w czasie.
+Na powyższych wykresach przedstawiam ewolucję cech ofiar i drapieżników w czasie. Na pierwszym wykresie przedstawiam średni rozmiar ofiar i drapieżników w czasie. Na drugim wykresie przedstawiam średnią prędkość ofiar i drapieżników w czasie. Na trzecim wykresie przedstawiam średnią energię ofiar i drapieżników w czasie.
 
 #figure(```python
 df = pd.DataFrame({
@@ -1538,7 +1538,7 @@ plt.ylabel("Predator Speed")
 plt.title("Correlation Between Organism and Predator Speed")
 plt.legend(title="Generation", bbox_to_anchor=(1, 1))
 plt.savefig("correlation_speed.png")
-```, caption: "Korelacja między prędkościami organizmów i drapieżników")
+```, caption: "Korelacja między prędkościami ofiar i drapieżników")
 
 #figure(```python
 plt.figure(figsize=(8, 6))
@@ -1548,7 +1548,7 @@ plt.ylabel("Predator Size")
 plt.title("Correlation Between Organism and Predator Size")
 plt.legend(title="Generation", bbox_to_anchor=(1, 1))
 plt.savefig("correlation_size.png")
-```, caption: "Korelacja między rozmiarami organizmów i drapieżników")
+```, caption: "Korelacja między rozmiarami ofiar i drapieżników")
 
 #figure(```python
 plt.figure(figsize=(10, 5))
@@ -1573,7 +1573,7 @@ plt.grid(True)
 plt.savefig("hunting_efficiency_trends.png")
 ```, caption: "Trendy efektywności polowania drapieżników w czasie")
 
-Powyższe listingi tworzą wykresy korelacji między różnymi cechami organizmów i drapieżników, takimi jak prędkość, rozmiar, energia, próg reprodukcji oraz efektywność polowania. Wykresy przedstawiają zmiany tych cech w czasie.
+Powyższe listingi tworzą wykresy korelacji między różnymi cechami ofiar i drapieżników, takimi jak prędkość, rozmiar, energia, próg reprodukcji oraz efektywność polowania. Wykresy przedstawiają zmiany tych cech w czasie.
 
 #figure(```python
 df = pd.DataFrame({
@@ -1590,11 +1590,60 @@ plt.ylabel("Predator Hunting Efficiency")
 plt.title("Correlation Between Reproduction and Hunting Efficiency")
 plt.legend(title="Generation", bbox_to_anchor=(1, 1))
 plt.savefig("correlation_reproduction_hunting.png")
-```, caption: "Korelacja między progiem reprodukcji organizmów i efektywnością polowania drapieżników")
+```, caption: "Korelacja między progiem reprodukcji ofiar i efektywnością polowania drapieżników")
 
-Listing 45 przedstawia korelację między progiem reprodukcji organizmów i efektywnością polowania drapieżników. Na osi X znajduje się próg reprodukcji organizmów, a na osi Y efektywność polowania drapieżników. Wykres przedstawia korelację między tymi dwoma cechami.
+Listing 45 przedstawia korelację między progiem reprodukcji ofiar i efektywnością polowania drapieżników. Na osi X znajduje się próg reprodukcji ofiar, a na osi Y efektywność polowania drapieżników. Wykres przedstawia korelację między tymi dwoma cechami.
 
 == Wyniki
+
+Przedstawię kilka scenariuszy symulacji z różnymi ustawieniami konfiguracyjnymi.
+
+#figure(
+    image("plots/1_scenario_01_mutability/world_biome_map.png"),
+    caption: "Plansza świata z rodzajami terenów",
+)
+
+=== Scenariusz 1 - Wpływ poziomu mutacji na adaptację populacji
+Sprawdzam jak zmienia się zdolność przetrwania ofiar i drapieżników w zależności od poziomu mutacji. 
+
+- Konfiguracja pierwszego wariantu scenariusza (bardzo niski poziom mutacji):
+    - Początkowa liczba ofiar: 5
+    - Początkowa liczba drapieżników: 5
+    - Poziom mutacji ofiar: 0.01
+    - Poziom mutacji drapieżników: 0.01
+- Konfiguracja drugiego wariantu scenariusza (niski poziom mutacji):
+    - Początkowa liczba ofiar: 5
+    - Początkowa liczba drapieżników: 5
+    - Poziom mutacji ofiar: 0.05
+    - Poziom mutacji drapieżników: 0.05
+- Konfiguracja trzeciego wariantu scenariusza (średni poziom mutacji):
+    - Początkowa liczba ofiar: 5
+    - Początkowa liczba drapieżników: 5
+    - Poziom mutacji ofiar: 0.1
+    - Poziom mutacji drapieżników: 0.1
+- Konfiguracja czwartego wariantu scenariusza (wysoki poziom mutacji):
+    - Początkowa liczba ofiar: 5
+    - Początkowa liczba drapieżników: 5
+    - Poziom mutacji ofiar: 0.2
+    - Poziom mutacji drapieżników: 0.2
+
+#figure(
+    image("plots/1_scenario_0_01_mutability/population_trends.png"),
+    caption: "Wykres populacji ofiar i drapieżników w czasie (bardzo niski poziom mutacji)",
+)
+
+#figure(
+    image("plots/1_scenario_0_05_mutability/population_trends.png"),
+    caption: "Wykres populacji ofiar i drapieżników w czasie (niski poziom mutacji)",
+)
+#figure(
+    image("plots/1_scenario_01_mutability/population_trends.png"),
+    caption: "Wykres populacji ofiar i drapieżników w czasie (średni poziom mutacji)",
+)
+#figure(
+    image("plots/1_scenario_02_mutability/population_trends.png"),
+    caption: "Wykres populacji ofiar i drapieżników w czasie (wysoki poziom mutacji)",
+)
 
 = Podsumowanie
 
