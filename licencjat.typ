@@ -1,3 +1,5 @@
+
+#set text(lang: "pl")
 #set par(
   justify: true,
   leading: 0.52em,
@@ -28,38 +30,43 @@
 
 #set heading(numbering: "1.")
 
-= Streszczenie
-Chciałem napisać symulację ewolucji populacji ofiar w środowisku; symulację zainspirowanymi
-automatami komórkowymi poprzez prostotę zasad, które prowadzą do złożonych zachowań. W pracy
-wykorzystałem język *Rust* z biblioteką *Bevy* do napisania symulacji oraz *Python* z pakietem
-bibliotek do analizy danych do wizualizacji wyników. Wynikiem pracy jest program, który symuluje
-ewolucję ofiar, użytkownik może wprowadzić różne parametry, które wpływają na zachowanie ewolucji i obserwować jak zmieniają się populacje ofiar w zależności od tych parametrów.
+= Streszczenie <streszczenie>
+Celem niniejszej pracy było opracowanie symulacji ewolucji populacji organizmów funkcjonujących w zróżnicowanym środowisku. Inspiracją do podjęcia tego tematu była koncepcja automatów komórkowych; prostych modeli obliczeniowych, w których lokalne reguły mogą prowadzić do powstawania złożonych, emergentnych zachowań. W ramach realizacji projektu wykorzystano język *Rust* wraz z biblioteką *Bevy* do implementacji symulacji, natomiast do analizy i wizualizacji wyników posłużono się językiem *Python* oraz popularnymi bibliotekami do przetwarzania danych. Efektem pracy jest program umożliwiający symulację procesów ewolucyjnych populacji organizmów, w którym Użytkownik może definiować różne parametry, takie jak początkowa ilość ofiar, drapieżników, stopień mutacji, rozmiar planszy, początkowy próg reprodukcji itp. wpływające na przebieg symulacji i obserwować zmiany zachodzące w populacjach w zależności od zadanych warunków.
 
-= Wprowadzenie
+Symulacja wykazała, że nawet proste reguły mogą prowadzić do nieoczywistych i złożonych efektów ewolucyjnych. Przykładowo, w warunkach silnej presji drapieżników ofiary nie ewoluowały w kierunku mniejszych, energooszczędnych form, lecz przeciwnie stawały się większe i bardziej zasobochłonne. Jest to przkład emergentnego wyścigu zbrojeń pomiędzy drapieżnikiem a ofiarą. Uzyskane wyniki pokazują potencjał tego typu modeli do badania zjawisk biologicznych oraz ich dalszego rozwoju.
+
+= Wprowadzenie <wprowadzenie>
 Celem pracy jest zbadanie możliwości modelowania procesów ewolucyjnych przy wykorzystaniu automatów komórkowych i *Entity Component System*, który w dalszej części pracy będzie przedstawiany jako *ECS*. Praca ma na celu nie tylko pogłębienie teorytycznych podstaw modelowania ewolucji przy użyciu dyskretnych metod obliczeniowych, ale także popularyzację nowoczesnych technik programistycznych.
 
 Symulację napisałem w języku Rust z wykorzystaniem biblioteki *Bevy*, która jest oparta na *ECS* i dostarcza wszystkie potrzebne komponenty do stworzenia projektu multimedialnego. Do wizualizacji danych użyłem języka *Python* z całym pakietem bibliotek do analizy danych takich jak *NumPy*, *Matplotlib*, *Pandas*.
-= Entity Component System
-== Wstęp
-*ECS* to współczesna architektura oprogramowania stosowana głównie w grach komputerowych oraz symulacjach. Umożliwia ona elastyczne i wydajne zarządzanie złożonymi systemami. Główną ideą *ECS* jest oddzielenie danych (komponentów) od logiki (systemów) oraz traktowanie encji jako jedynie identyfikatorów, co pozwala na łatwiejsze skalowanie, modyfikację oraz optymalizację (np. w kontekście wielowątkowości). W tym rozdziale postaram się przybliżyć podstawowe pojęcia związane z *ECS* jego strukturę oraz zalety.
-== Encje
-*Encje* (ang. _entities_) stanowią podstawowy element *ECS*. Są one reprezentowane najczęściej jako unikalne identyfikatory (np. liczby całkowite) i same w sobie nie zawierają żadnych danych, ani elementów logicznych. Encje są "nosicielami" komponentów, które definiują ich właściwości. Dzięki temu, encje zajmują mało miejsca w pamięci, a zarządzanie nimi - np. tworzenie, usuwanie czy modyfikacja - odbywa się w sposób efektywny, ponieważ nie wymaga to przeszukiwania złożonych struktur danych.
-== Komponenty
+
+= Entity Component System <ecs>
+== Wstęp <ecs_wstep>
+*ECS* to współczesna architektura oprogramowania stosowana głównie w grach komputerowych oraz symulacjach. Umożliwia ona elastyczne i wydajne zarządzanie złożonymi systemami. Główną ideą *ECS* jest oddzielenie danych (komponentów) od logiki (systemów) oraz traktowanie encji (patrz #ref(<encje>)) jedynie jako identyfikatorów, co pozwala na łatwiejsze skalowanie, modyfikację oraz optymalizację (np. w kontekście wielowątkowości). W tym rozdziale wyjaśniam podstawowe pojęcia związane z *ECS*, jego strukturę oraz zalety.
+== Encje <encje>
+*Encje* (ang. _entities_) stanowią podstawowy element *ECS*. Są one reprezentowane najczęściej jako unikalne identyfikatory (np. liczby całkowite) i same w sobie nie zawierają żadnych danych ani elementów logicznych. Encje są "nosicielami" komponentów, które definiują ich właściwości. Dzięki temu, encje zajmują mało miejsca w pamięci, a zarządzanie nimi - np. tworzenie, usuwanie czy modyfikacja - odbywa się w sposób efektywny, ponieważ nie wymaga to przeszukiwania złożonych struktur danych.
+
+== Komponenty <komponenty>
 *Komponenty* (ang. _components_) to struktury danych, które zawierają właściwości lub stany encji. Każdy komponent jest dedykowany określonej właściwości obiektu, np. pozycji, prędkości czy "zdrowiu". W *ECS* komponenty nie zawierają żadnej logiki, są one jedynie kontenerami na dane. Z racji tego, że ich główną rolą jest przechowywanie informacji, są one zazwyczaj proste i niezależne od siebie. Co więcej, komponenty powinny być rozdzielane na mniejsze, wyspecjalizowane jednostki. Dzięki temu systemy mogą operować na dokładnie tych danych, które są im potrzebne, co sprzyja modularności i łatwości wprowadzaniu zmian, a przez to wydajności.
-== Systemy
+
+== Systemy <systemy>
 *Systemy* (ang. _systems_) to moduły odpowiedzialne za logikę działania symulacji albo gry. Operują one na zbiorach encji, które posiadają określone komponenty. Przykładowo, system odpowiedzialny za ruch będzie aktualizował pozycje encji, które posiadają komponent _Pozycja_ oraz _Prędkość_. Systemy wykonują swoje operacje cyklicznie (np. w każdej klatce gry) i mogą być projektowane tak, aby działały niezależnie od siebie.
-== Świat
+
+== Świat <swiat>
 *Świat* w kontekście *ECS* to kontener, który przechowuje wszystkie encje, komponenty i systemy danego projektu. Stanowi centralny punkt, za pomocą którego systemy mogą uzyskać dostęp do danych i komunikować się między sobą.
-== Zalety Entity Component System
-Architektura *ECS* posiada szereg korzyści:
-- *Modularność*: Oddzielenie danych od logiki umożliwia łatwe modyfikowanie i rozszerzanie funkcjonalności bez wpływu na całą strukturę aplikacji.
-- *Wydajność*: Komponenty są przechowywane w pamięci w sposób ciągły, co sprzyja lokalności danych i pozwala na efektywne operacje na nich, ponieważ procesor o wiele szybciej uzyska dostęp do danych, które znajdują się w tzw. _cache'u_ niż z pamięci RAM.
-- *Elastyczność*: Można łatwo dodawać lub usuwać funkcjonalności przez modyfikację lub dodanie nowych komponentów i systemów.
+
+== Zalety Entity Component System <zalety_ecs>
+Architektura *ECS* posiada szereg zalet:
+- *Modularność*: oddzielenie danych od logiki umożliwia łatwe modyfikowanie i rozszerzanie funkcjonalności bez wpływu na całą strukturę aplikacji.
+- *Wydajność*: komponenty są przechowywane w pamięci w sposób ciągły, co sprzyja lokalności danych i pozwala na efektywne operacje na nich, ponieważ procesor o wiele szybciej uzyska dostęp do danych, które znajdują się w tzw. _cache'u_ niż z pamięci RAM.
+- *Elastyczność*: można łatwo dodawać lub usuwać funkcjonalności przez modyfikację lub dodanie nowych komponentów i systemów.
 - *Skalowalność*: *ECS* doskonale nadaje się do obsługi dużej liczby encji, co jest szczególnie ważne w symulacjach oraz grach z wieloma interaktywnymi obiektami.
-- *Łatwość debugowania i testowania*: Dzięki modułowej budowie, testowanie i debugowanie poszczególnych komponentów i systemów jest znacznie prostsze.
-== Wielowątkowość w Entity Component System
+- *Łatwość debugowania i testowania*: dzięki modułowej budowie, testowanie i debugowanie poszczególnych komponentów i systemów jest znacznie prostsze.
+
+== Wielowątkowość w Entity Component System <wielowatkowosc_ecs>
 Jednym z kluczowych atutów *ECS* jest możliwość łatwego wykorzystania wielowątkowości. Dzięki wyraźnemu oddzieleniu systemów, które operują na niepowiązanych zestawach komponentów, można równolegle przetwarzać dane w różnych wątkach. To podejście nie tylko zwiększa wydajność symulacji, ale także pozwala na lepsze wykorzystanie współczesnych procesorów wielordzeniowych. W praktyce oznacza to, że systemy nie muszą blokować siebie nawzajem, co znacznie poprawia skalowalność i responsywność aplikacji.
-== Podsumowanie
+
+== Podsumowanie <podsumowanie_ecs>
 *ECS* to nowoczesne podejście do projektowania systemów, które wyróżnia się modularnością, wydajnością i elastycznością.
 Dzięki oddzieleniu encji, komponentów i systemów możliwe jest tworzenie skomplikowanych symulacji
 oraz gier w sposób przejrzysty i łatwy do skalowania. Dodatkową zaletą jest możliwość równoległego
@@ -67,8 +74,9 @@ przetwarzania, co jest kluczowe w aplikacjach wymagających wysokiej wydajności
 *ECS* stanowi doskonałą bazę do implementacji symulatorów oraz innych systemów, w których liczy
 się szybkie przetwarzanie dużej liczby obiektów, co czyni go idealnym narzędziem w kontekście
 bioinformatyki i modelowania ewolucyjnego.
-= Automaty komórkowe
-== Wstęp
+
+= Automaty komórkowe <automaty_komorkowe>
+== Wstęp <automaty_komorkowe_wstep>
 *Automaty komórkowe* (ang. _cellular automata_) to dyskretne modele obliczeniowe, w których przestrzeń
 symulacji dzielona jest na regularną siatkę komórek. Każda komórka może znajdować się w jednym, ze stanów,
 które należa do zbioru dyskretnego i ograniczonego, a jej ewolucja odbywa się według ustalonych reguł,
@@ -87,14 +95,15 @@ samoorganizacji oraz samoorganizującej się krytyczności (ang. _Self-Organized
 zdolności układów dynamicznych do spontanicznego przechodzenia w stan krytyczny. Stały się również inspiracją
 dla badań nad sztucznym życiem, modelując emergentne zachowania przypominające procesy biologiczne @PhysRevLett.68.1244.
 
-== Definicja
-Automat komórkowy definiuje się jako system składający się z trzech podstawowych elementów:
-- *Siatka komórek*: Przestrzeń, w której każda komórka ma określoną pozycję (np. w układzie regularnym, takim jak kwadratowa lub heksagonalna siatka).
-- *Zbiór stanów*: Dyskretny zbiór wartości, które mogą przyjmować poszczególne komórki (np. 0 lub 1, kolor, liczba, itp.).
-- *Reguły przejścia*: Zbiór zasad, według których stan każdej komórki jest aktualizowany w kolejnych krokach czasowych, zależnie od stanów sąsiadów. Aktualizacja zwykle odbywa się synchronicznie dla wszystkich komórek.
+== Definicja <definicja>
+Automat komórkowy definiuje się jako układ składający się z trzech podstawowych elementów:
+- *Siatka komórek*: przestrzeń, w której każda komórka ma określoną pozycję (np. w układzie regularnym, takim jak kwadratowa lub heksagonalna siatka).
+- *Zbiór stanów*: dyskretny zbiór wartości, które mogą przyjmować poszczególne komórki (np. 0 lub 1, kolor, liczba, itp.).
+- *Reguły przejścia*: zbiór zasad, według których stan każdej komórki jest aktualizowany w kolejnych krokach czasowych, zależnie od stanów sąsiadów. Aktualizacja zwykle odbywa się synchronicznie dla wszystkich komórek.
 
-Takie podejście umożliwia analizę, jak proste reguł lokalne mogą prowadzić do powstawania skomplikowanych, globalnych wzorców i struktur. @Ilachinski
-== Przykłady
+Takie podejście umożliwia obserwację tego, jak proste reguł lokalne mogą prowadzić do powstawania skomplikowanych, globalnych wzorców i struktur. @Ilachinski
+
+== Przykłady <przyklady_automaty_komorkowe>
 Najbardziej znanym przykładem automatu komórkowego jest gra w życie Johna Conwaya @gardner_mathematical_1970, w której proste zasady dotyczące narodzin, przetrwania i śmierci komórek prowadzą do złożonych, często nieprzewidywalnych zachowań. Inne przykłady obejmują:
 
 - *Elementarne automaty komórkowe*: Badane przez Stephena Wolframa, gdzie komórki mają tylko dwa stany, a reguły są określone na podstawie stanu sąsiadów w jednym wymiarze. Przykłady takich reguł to reguła 30 czy reguła 110 @LANGTON1986120.
@@ -102,28 +111,29 @@ Najbardziej znanym przykładem automatu komórkowego jest gra w życie Johna Con
 - *Specjalistyczne modele*: Automaty komórkowe stosowane w modelowaniu wzrostu tkanek, rozprzestrzeniania się epidemii czy dynamiki ruchu tłumu. @PhysRevLett.71.4083, @Kauffman
 
 Te przykłady pokazują, że automaty komórkowe są niezwykle wszechstronnym narzędziem, które znalazło zastosowanie zarówno w teorii, jak i w praktycznych zastosowaniach.
-= Mój model
-Zainspirowany automatami komórkowymi postanowiłem zrobić symulację ewolucji populacji ofiar.
 
-Plansza, bądź świat w którym odbywa się symulacja jest dwuwymiarową siatką, gdzie każdy kafelek może być jednym z czterech rodzajów: woda, las, pustynia i trawa. Każdy typ terenu ma swoje własne właściwości jak np. *dostępność pożywienia*, *prędkość odnowy pożywienia*, jak szybko i chętnie ofiary poruszają się po nim.
+= Mój model <model>
+Zainspirowany automatami komórkowymi stworzyłem symulację ewolucji populacji organizmów. Są dwa rodzaje organizmów: ofiary i drapieżniki.
 
-W mojej symulacji mam dwa rodzaje ofiar: bierne i drapieżniki. Bierne ofiary dostają energię z jedzenia, które jest na danym kafelku. Drapieżniki z kolei dostają energię z jedzenia biernych ofiar. Każda ofiara ma swoje własne cechy jak *energia*, *prędkość*, *rozmiar*, *próg rozmnażania*, *tolerancja terenu*, drapieżniki mają dodatkowo *wydajność polowania* i *próg głodu*.
+Plansza, bądź świat, w którym odbywa się symulacja jest dwuwymiarową siatką, zbudowaną z czterech rodzajów kafelków (woda, las, pustynia i trawa). Każdy typ terenu ma swoje własne właściwości jak np. dostępność pożywienia, prędkość odnowy pożywienia, jak szybko i chętnie organizmy poruszają się po nim.
 
-Ofiara i drapieżnik potrzebuje energii, by żyć. Jeśli zabraknie tego zasobu, jednostka ginie.
-Natomiast, jeśli ofiara przekroczy próg rozmnażania, to tworzy nową jednostkę. Co krok czasowy każda jednostka zużywa energię, co więcej im większa bądź szybsza jednostka, tym więcej energii zużywa. Drapieżniki polują na ofiary, gdy ich energia spadnie poniżej progu głodu. Celem drapieżnika jest najbliższa ofiara. Każdy drapieżnik ma zasięg polowania, który wynosi jedną komórkę. Wydajność polowania wpływa na to ile energii drapieżnik dostanie z jedzenia.
+W mojej symulacji mam dwa rodzaje organizmów: ofiary i drapieżniki. Ofiary dostają energię z jedzenia, które jest na danym kafelku. Drapieżniki z kolei dostają energię z jedzenia ofiar. Każdy organizm ma swoje własne cechy jak energia, prędkość, rozmiar, próg rozmnażania, tolerancja terenu, drapieżniki mają dodatkowo wydajność polowania i próg głodu.
 
-W sytuacji, gdy na jednej komórce znajduje się więcej niż jedna ofiara, to pożywienie dostaje w pierwszej kolejności ofiara, która jest największa. Ilość uzyskanej energii z jedzenia również zależy od rodzaju terenu, na którym znajduje się ofiara i jego przystosowania do tego terenu.
-Natomiast jeśli na jednej komórce znajduje się więcej ofiar, bądź drapieżników niż ustawiony limit to nadwyżka ginie z powodu przeludnienia.
+Wszystkie organizmy potrzebują energi do przeżycia. Jeśli zabraknie tego zasobu, jednostka ginie.
+Natomiast, jeśli organizm przekroczy próg rozmnażania, to tworzy nową jednostkę. W każdym kroku czasowym każda jednostka zużywa energię, tym więcej im jest szybsza. Drapieżniki polują na ofiary, gdy ich energia spadnie poniżej progu głodu i poszukuje najbliższej ofiary. Każdy drapieżnik ma zasięg polowania, który wynosi jedną komórkę. Wydajność polowania wpływa na to ile energii drapieżnik dostanie z jedzenia.
 
-Podczas rozmnażania ofiara dziedziczy cechy rodzica, ale również może wystąpić mutacja cech.
-Mutacja polega na zmianie cechy o losowa wartość z przedziału, który zależy od mutacji. Dziecko zaczyna z połową energii rodzica. Takie same zachowanie rozmnażania i mutacji występuje u drapieżników.
+W sytuacji, gdy na jednej komórce znajduje się więcej niż jedna ofiara, to pożywienie dostaje w pierwszej kolejności osobnik, który jest największy, przy czym ilość uzyskanej energii z jedzenia również zależy od rodzaju terenu, na którym znajduje się i jego przystosowania do tego terenu.
+Jeśli na jednej komórce znajduje się więcej ofiar, bądź drapieżników niż ustawiony limit to nadwyżka ginie z powodu przeludnienia.
+
+Podczas rozmnażania organizm dziedziczy cechy rodzica, ale może również wystąpić mutacja cech.
+Mutacja polega na zmianie cechy o losową wartość z przedziału, który zależy od mutacji. Dziecko rodzi się z połową energii rodzica.
 
 == Implementacja
-Kod źródłowy jest podzielony na dwie części: symulacja napisana w języku *Rust* z wykorzystaniem biblioteki *Bevy* oraz wizualizacja wyników w języku *Python* z wykorzystaniem bibliotek *Matplotlib*, *NumPy* i *Pandas*.
+Kod źródłowy jest podzielony na dwie części. Pierwszą z nich jest symulacja napisana w języku *Rust* z wykorzystaniem biblioteki *Bevy*. Natomiast drugą część stanowi wizualizacja wyników do stworzenia, której wykorzystałem język *Python* oraz biblioteki *Matplotlib*, *NumPy* i *Pandas*.
 
-Zacznę od prezentacji kodu symulacji i jego objaśnienia.
+W punkcie 5.2 przedstawiam kod źródłowy wraz z jego krótkim objaśnieniem.
 
-== Symulacja
+== Symulacja <symulacja>
 
 #show figure: set align(left)
 
@@ -145,9 +155,10 @@ Zacznę od prezentacji kodu symulacji i jego objaśnienia.
   use serde::Serialize;
   ```,
   caption: "Importy",
+  supplement: "Listing",
 )
 
-W listingu 1 przedstawione są importy, które są potrzebne do napisania symulacji. W symulacji wykorzystuję kilka bibliotek z biblioteki standardowej języka *Rust*, takich jak `std::error::Error` do obsługi błędów, `std::fs` do operacji na plikach, `std::io::Write` do zapisywania danych do pliku. Wykorzystuję również bibliotekę `bevy` do tworzenia gry, `noise` do generowania szumu, który później wykorzystuję do stworzenia planszy, która w miarę przypomina rzeczywisty świat, `rand` do generowania liczb losowych oraz `serde` do serializacji i deserializacji danych, które później wykorzystuję do wizualizacji wyników w języku *Python*.
+W listingu 1 przedstawione są zaimportowane biblioteki, które są potrzebne do napisania symulacji są to m. in.: `std::error::Error` do obsługi błędów, `std::fs` do operacji na plikach, `std::io::Write` do zapisywania danych do pliku. Wykorzystuję również bibliotekę `bevy`, która ma odpowiednie funkcje i struktury do tworzenia multimedialnego projektu, stosując przy tym architekturę `ECS`, `noise` do generowania szumu, którego użycie wprowadza niedeterminizm do mojego modelu , `rand` do generowania liczb pseudolosowych oraz `serde` do serializacji i deserializacji danych, które później wykorzystuję do wizualizacji wyników w języku *Python*.
 
 
 #figure(
@@ -189,17 +200,18 @@ W listingu 1 przedstawione są importy, które są potrzebne do napisania symula
   }
   ```,
   caption: "Struktury konfiguracyjne",
+  supplement: "Listing",
 )
 
-W listingu 2 przedstawione są struktury konfiguracyjne, które są wykorzystywane do konfiguracji symulacji. Struktura `BiomeDataConfig` przechowuje informacje o dostępności pożywienia na danym terenie oraz maksymalnej dostępności pożywienia. Struktura `Config` przechowuje informacje o szerokości i wysokości planszy, liczbie początkowych ofiar i drapieżników, czy symulacja ma być uruchomiona w trybie bez okna, czy dane mają być zapisywane do pliku, a także parametry początkowe dla ofiar i drapieżników, takie jak _energia_, _prędkość_, _rozmiar_, _próg rozmnażania_, _wydajność polowania_, _próg głodu_, _mutowalność cech_, _próg przeludnienia_ oraz _ziarno generatora liczb losowych_. Struktura ta jest serializowana i deserializowana za pomocą biblioteki `serde` oraz jest dostępna jako zasób w *Bevy*, co powoduje, że jest dostępna dla każdego systemu.
+W listingu 2 przedstawione są struktury konfiguracyjne. Struktura `BiomeDataConfig` przechowuje informacje o dostępności pożywienia na danym terenie oraz maksymalnej dostępności pożywienia. Struktura `Config` zawiera informacje o szerokości i wysokości planszy, liczbie początkowych ofiar i drapieżników, czy dane mają być zapisywane do pliku, a także parametry początkowe dla ofiar i drapieżników, takie jak _energia_, _prędkość_, _rozmiar_, _próg rozmnażania_, _wydajność polowania_, _próg głodu_, _mutowalność cech_, _próg przeludnienia_ oraz _ziarno generatora liczb losowych_. Dodatkowo w tej strukturze możemy wybrać czy symulacja ma być uruchomiona w trybie bez okna. Struktura ta jest serializowana i deserializowana za pomocą biblioteki `serde` oraz jest dostępna jako zasób w *Bevy*, co powoduje, że jest dostępna dla każdego systemu.
 
-Ziarno jest potrzebne, by symulacja była deterministyczna, a dane były zawsze takie same, co jest ważne przy testowaniu i reprodukowaniu wyników. Plik konfiguracyjny jest w formacie *TOML* i wygląda następująco:
+Ziarno generatora liczb pseudolosowych jest potrzebne, by symulacja była deterministyczna, a wyniki były zawsze takie same, co jest ważne przy testowaniu i reprodukowaniu. Plik konfiguracyjny jest zapisany w formacie *TOML* i zawiera następujące wartości parametrów:
 ```toml
 width = 100
 height = 100
 initial_organisms = 5
-initial_predators = 2
-headless = false
+initial_predators = 5
+headless = true
 log_data = true
 initial_organism_energy = 3.0
 initial_predator_energy = 15.0
@@ -211,12 +223,18 @@ initial_organism_reproduction_threshold = 5.0
 initial_predator_reproduction_threshold = 16.0
 initial_predator_hunting_efficiency = 1.5
 initial_predator_satiation_threshold = 14.0
-organism_mutability = 0.1
-predator_mutability = 0.05
+organism_mutability = 0.01
+predator_mutability = 0.01
 overcrowding_threshold_for_organisms = 25
 overcrowding_threshold_for_predators = 10
+max_predator_energy = 12500.0
+predator_energy_decay_rate = 0.1
+organism_reproduction_cooldown = 7.0
+predator_reproduction_cooldown = 2.0
 seed = 420692137
-max_total_entities = 10000
+max_total_entities = 100000
+generation_limit = 1000
+printing = false
 
 [forest]
 food_availabilty = 0.2
@@ -242,7 +260,7 @@ max_food_availabilty = 1500.0
 temperature = 25.0
 humidity = 0.4
 ```
-Dzięki temu, że symulacja wczytuje plik konfiguracyjny, można łatwo zmieniać parametry symulacji bez konieczności zmiany kodu źródłowego i ponownej kompilacji programu.
+Dzięki temu, że symulacja wczytuje plik konfiguracyjny, można łatwo zmieniać jej parametry bez konieczności zmiany kodu źródłowego i ponownej kompilacji programu.
 
 #figure(
   ```rust
@@ -271,9 +289,10 @@ Dzięki temu, że symulacja wczytuje plik konfiguracyjny, można łatwo zmienia�
   }
   ```,
   caption: "Struktury reprezentujące świat",
+  supplement: "Listing",
 )
 
-W listingu 3 przedstawione są struktury reprezentujące świat, w którym odbywa się symulacja. Enum `Biome` reprezentuje rodzaje terenów, które mogą występować na planszy, takie jak las, pustynia, woda, łąka. Struktura `Tile` reprezentuje pojedynczy kafelek na planszy i przechowuje informacje o rodzaju terenu, temperaturze, wilgotności oraz dostępności pożywienia. Struktura `World` przechowuje informacje o szerokości i wysokości planszy oraz dwuwymiarową tablicę kafelków. `World` jest zasobem w *Bevy*, co oznacza, że jest dostępny dla wszystkich systemów, podobnie jak `Config`.
+W listingu 3 przedstawione są struktury opisujące świat, w którym przebiega symulacja. Enum `Biome` określa możliwe typy terenu występujące na planszy: las, pustynię, wodę oraz łąkę. Struktura `Tile` odwzorowuje pojedynczy kafelek mapy i zawiera informacje o typie terenu, temperaturze, wilgotności oraz dostępności pożywienia. Struktura `World` definiuje całą planszę symulacji, przechowując jej szerokość, wysokość oraz dwuwymiarową siatkę kafelków. Obiekt `World` jest zasobem w *Bevy*, co oznacza, że jest dostępny dla wszystkich systemów, podobnie jak `Config`.
 
 #figure(
   ```rust
@@ -319,6 +338,7 @@ W listingu 3 przedstawione są struktury reprezentujące świat, w którym odbyw
   }
   ```,
   caption: "Implementacje metod dla struktur Biome i Tile",
+  supplement: "Listing",
 )
 
 #figure(
@@ -370,10 +390,11 @@ W listingu 3 przedstawione są struktury reprezentujące świat, w którym odbyw
   }
   ```,
   caption: "Implementacje metod dla struktury World",
+  supplement: "Listing",
 )
 
-W listingach 4 i 5 przedstawione są implementacje metod dla struktur `Biome` i `Tile` oraz `World`. Metoda `Display` dla `Biome` pozwala na wyświetlenie nazwy terenu w bardziej przyjazny dla użytkownika sposób. Metoda `regenerate_food` dla `Tile` pozwala na odnowienie pożywienia na danym kafelku w zależności od rodzaju terenu. Jedzenie nie odnawia się w nieskończoność, jeśli zostanie osiągniety limit dla danego terenu, żywność nie jest dalej odnawiana. Dla wody nie odnawiam jedzenia, ponieważ w mojej implementacji założyłem, że woda nie jest terenem, na którym mogą żyć jednostki. Metoda `new` dla `World` tworzy nowy świat o podanej szerokości i wysokości, generując teren na podstawie szumu *Perlin'a* z wykorzystaniem ziarna generatora liczb losowych. Metoda `Default` dla `World` tworzy domyślny świat o szerokości 10 i wysokości 10 z ziarnem 0. Dzięki wykorzystaniu szumu *Perlin'a* teren jest bardziej naturalny i przypomina rzeczywisty świat, a jaki rodzaj terenu występuje na danym kafelku zależy od wartości szumu.
-Dla wartości szumu mniejszych niż -0.3 teren jest wodny, dla wartości mniejszych niż -0.1 pustynny, dla wartości mniejszych niż 0.5 łąkowy, a dla pozostałych las. Dla każdego kafelka generuję również temperaturę, wilgotność oraz dostępność pożywienia, która jest losowa.
+W listingach 4 i 5 przedstawione są implementacje metod dla struktur `Biome`, `Tile` oraz `World`. Metoda `Display` dla `Biome` pozwala na wyświetlenie nazwy terenu w bardziej przyjazny dla użytkownika sposób, co oznacza, że zamiast tekstu `Biome::Forest` pojawi się po prostu `Forest`. Metoda `regenerate_food` dla `Tile` pozwala na odnowienie pożywienia na danym kafelku w zależności od rodzaju terenu. Jeśli zostanie osiągniety limit dla danego terenu, żywność nie jest odnawiana. Dla wody jedzenie nie jest odnawiane, ponieważ w mojej implementacji założyłem, że woda nie jest terenem, na którym mogą żyć jednostki. Metoda `new` dla `World` tworzy nowy świat o podanej szerokości i wysokości, generując teren z wykorzystaniem szumu *Perlin'a* @PerlinNoise oraz ziarna generatora liczb losowych. Metoda `Default` dla `World` tworzy domyślny świat o szerokości 10 i wysokości 10 z ziarnem 0. Dzięki wykorzystaniu szumu *Perlin'a* teren jest bardziej naturalny i przypomina rzeczywisty świat, a rodzaj terenu na danym kafelku zależy od wartości szumu.
+Dla wartości szumu mniejszych niż -0.3 teren jest wodny, dla mniejszych niż -0.1 pustynny, dla wartości mniejszych niż 0.5 łąkowy, a dla pozostałych leśny. Każdy kafelek posiada również losowe wartości temperatury, wilgotności oraz dostępności pożywienia.
 
 #figure(
   ```rust
@@ -409,9 +430,10 @@ Dla wartości szumu mniejszych niż -0.3 teren jest wodny, dla wartości mniejsz
 
   ```,
   caption: "Komponenty w symulacji",
+  supplement: "Listing",
 )
 
-W listingu 6 przedstawione są struktury reprezentujące jednostki. Struktura `Organism` reprezentuje ofiarę i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania oraz tolerancji terenu. Tolerancja terenu jest mapą, która przechowuje informacje o tolerancji ofiary na dany teren. Struktura `Predator` reprezentuje drapieżnika i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania, wydajności polowania oraz progu głodu. Struktura `Position` przechowuje informacje o pozycji jednostki na planszy. Struktura `TileComponent` przechowuje informacje o rodzaju terenu na danym kafelku. Ten komponent jest wykorzystywany do wyświetlania odpowiedniego koloru kafelka w zależności od rodzaju terenu na planszy. Wszystkie te struktury są *komponentami* w *ECS* i są dostępne dla systemów.
+W listingu 6 przedstawione są struktury reprezentujące jednostki. Struktura `Organism` reprezentuje ofiarę i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania oraz tolerancji terenu. Struktura `Predator` reprezentuje drapieżnika i przechowuje informacje o energii, prędkości, rozmiarze, progu rozmnażania, wydajności polowania oraz progu głodu. Struktura `Position` zawiera informacje o pozycji jednostki na planszy. `TileComponent` przechowuje informacje o rodzaju terenu na danym kafelku. Ten komponent jest wykorzystywany do wyświetlania odpowiedniego koloru kafelka w zależności od rodzaju terenu na planszy. Wszystkie te struktury są *komponentami* w *ECS* i są dostępne dla systemów.
 
 #figure(
   ```rust
@@ -420,7 +442,8 @@ W listingu 6 przedstawione są struktury reprezentujące jednostki. Struktura `O
 
   const TILE_SIZE_IN_PIXELS: f32 = 32.0;
   ```,
-  caption: "Zasób przechowujący informacje o generacji oraz stała przechowująca rozmiar kafelka w pikselach",
+  caption: "Zasób przechowujący informacje o pokoleniu oraz stała przechowująca rozmiar kafelka w pikselach",
+  supplement: "Listing",
 )
 
 W powyższym listingu przedstawiony jest zasób `Generation`, który przechowuje informacje o aktualnym pokoleniu w symulacji oraz stała `TILE_SIZE_IN_PIXELS`, która przechowuje rozmiar kafelka w pikselach.
@@ -485,9 +508,10 @@ W powyższym listingu przedstawiony jest zasób `Generation`, który przechowuje
   }
   ```,
   caption: "Główna funkcja programu",
+  supplement: "Listing",
 )
 
-W listingu 8 przedstawiona jest główna funkcja programu, od której zaczyna się wykonywanie kodu. Na samym początku wczytywany jest plik konfiguracyjny i wypisywana jest jego treść do punktu wyjścia. Następnie pobieram z ustawień konfiguracyjnych flagę, która odpowiada za to czy symulacja powinna być uruchomiona w trybie bezokienkowym czy okienkowym. Tworzę zmienną `app`, która przechowuje aplikację *Bevy*. W zależności od wartości flagi dodaję odpowiednie wtyczki. Wtyczka `MinimalPlugins` dodaje minimalny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie bezokienkowym, a wtyczka `DefaultPlugins` dodaje domyślny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie okienkowym. Następnie wstawiam zasób `World` z nowym światem, któremu przekazuję ustawienia z pliku konfiguracyjnego, zasób `Config` z ustawieniami konfiguracyjnymi, zasób `Generation` z aktualnym pokoleniem oraz dodaję systemy, które mają zostać wykonane w trakcie działania symulacji. Są dwie kategorie systemów `Startup` i `Update`, systemy należące do grupy `Startup` zostaną odpalone tylko raz na początku symulacji, a systemy z grupy `Update` będą wykonywane w każdej klatce gry. Systemy z grupy `Startup` odpowiadają za inicjalizację symulacji oraz potrzebnych plików do zapisywania danych. Systemy z grupy `Update` odpowiadają za aktualizację stanu symulacji, ruch jednostek, polowanie, rozmnażanie, zapisywanie danych, obsługę kamery oraz usuwanie martwych jednostek. Na końcu uruchamiam symulację za pomocą metody `run`. Systemy są wykonywane równolegle, co pozwala na zwiększenie wydajności symulacji. Poza systemem `hunting`, który jest wykonywany przed systemami: `render_organisms`, `render_predators`, `organism_movement`, `predator_movement`, `organism_sync`, `predator_sync`, `despawn_dead_organisms`, `despawn_dead_predators`, `regenerate_food`, `consume_food`, `overcrowding`, `biome_adaptation`, `reproduction`, `predator_reproduction`, `increment_generation`, `log_organism_data`, `log_world_data`, `handle_camera_movement`. Jest to spowodowane tym, że gdy ofiara zostanie zjedzona, to musi zniknąć z planszy, przez co czasami gdy system odpowiedzialny za polowanie się wykonywał to próbował zjeść ofiarę, który już nie istniała i powodowało to błąd krytyczny w programie. W ten sposób unikam tego problemu. Niestety powoduje to, że planer (ang. _scheduler_) musi wykonać więcej pracy i może to wpłynąć na wydajność symulacji.
+W listingu 8 przedstawiona jest funkcja programu, od której zaczyna się wykonywanie kodu. Na samym początku wczytywany jest plik konfiguracyjny i wypisywana jest jego treść do punktu wyjścia. Następnie pobrana jest flaga z ustawień konfiguracyjnych, która odpowiada za to czy symulacja powinna być uruchomiona w trybie bezokienkowym czy okienkowym. Zmienna `app` przechowuje aplikację *Bevy*. W zależności od wartości flagi, dodawane są odpowiednie wtyczki. Wtyczka `MinimalPlugins` dodaje minimalny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie bezokienkowym, a wtyczka `DefaultPlugins` dodaje domyślny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie okienkowym. Następnie wstawiany jest zasób `World` z nowym światem, któremu przekazywane są ustawienia z pliku konfiguracyjnego, `Config` z ustawieniami konfiguracyjnymi, `Generation` z aktualnym pokoleniem. Następnie dodawane są systemy, które mają zostać wykonane w trakcie działania symulacji. Istnieją dwie kategorie systemów `Startup` i `Update`. Systemy należące do grupy `Startup` sa uruchamiane tylko raz na początku symulacji, a systemy z grupy `Update` są wykonywane w każdej klatce symulacji. Systemy z grupy `Startup` odpowiadają za inicjalizację symulacji oraz potrzebnych plików do zapisywania danych, natomiast te z grupy `Update` - odpowiadają za aktualizację stanu symulacji, ruch jednostek, polowanie, rozmnażanie, zapisywanie danych, obsługę kamery oraz usuwanie martwych jednostek. Na końcu uruchamiana jest symulacja za pomocą metody `run`. Systemy są wykonywane równolegle, co pozwala na zwiększenie wydajności symulacji. Wyjątkiem jest system `hunting`, który jest wykonywany przed systemami: `render_organisms`, `render_predators`, `organism_movement`, `predator_movement`, `organism_sync`, `predator_sync`, `despawn_dead_organisms`, `despawn_dead_predators`, `regenerate_food`, `consume_food`, `overcrowding`, `biome_adaptation`, `reproduction`, `predator_reproduction`, `increment_generation`, `log_organism_data`, `log_world_data`, `handle_camera_movement`. Rozwiązanie to jest spowodowane tym, że gdy ofiara zostanie zjedzona, to musi zniknąć z planszy, przez co mogło zdarzyć się, że system odpowiedzialny za polowanie próbował zjeść ofiarę, której nie było już na planszy, co powodowało błąd krytyczny w programie. W ten sposób można uniknąć tego problemu. Negatywną konsekwencją tego rozwiązania jest to, że planer (ang. _scheduler_) musi wykonać więcej pracy i może to wpłynąć niekorzystnie na wydajność symulacji.
 
 #figure(
   ```rust
@@ -532,9 +556,10 @@ W listingu 8 przedstawiona jest główna funkcja programu, od której zaczyna si
   }
   ```,
   caption: "System tworzący świat",
+  supplement: "Listing",
 )
 
-W listingu 9 przedstawiony jest system `spawn_world`, który odpowiada za stworzenie świata na podstawie danych z zasobu `World`. Dla każdego kafelka na planszy tworzony jest odpowiedni kolor w zależności od rodzaju terenu. Następnie tworzony jest kafelek na planszy z odpowiednim kolorem i pozycją. Na końcu tworzona jest kamera, która śledzi planszę. Kamera znajduje się w środku planszy i ma wysokość 10.0 jednostek.
+W listingu 9 przedstawiony jest system `spawn_world`, który odpowiada za stworzenie świata na podstawie danych z zasobu `World`. Dla każdego kafelka na planszy dobierany jest odpowiedni kolor, w zależności od rodzaju terenu. Następnie tworzony jest kafelek na planszy z odpowiednim kolorem i pozycją. Na końcu dodawana jest kamera, która śledzi planszę. Kamera znajduje się w środku planszy i ma wysokość 10.0 jednostek.
 
 #figure(
   ```rust
@@ -564,6 +589,7 @@ W listingu 9 przedstawiony jest system `spawn_world`, który odpowiada za stworz
   }
   ```,
   caption: "System tworzący ofiary",
+  supplement: "Listing",
 )
 
 #figure(
@@ -586,9 +612,10 @@ W listingu 9 przedstawiony jest system `spawn_world`, który odpowiada za stworz
   }
   ```,
   caption: "Funkcja generująca tolerancję terenu dla ofiary",
+  supplement: "Listing",
 )
 
-Listing 10 przedstawia system `spawn_organisms`, który odpowiada za stworzenie ofiar na planszy. Dla każdego ofiary losowana jest pozycja na planszy. Następnie dla każdego ofiary tworzona jest tolerancja terenu na podstawie rodzaju terenu, na którym znajduje się ofiara. Tolerancja terenu jest mapą, która przechowuje informacje o tolerancji ofiary na dany teren. Im bliżej tolerancji terenu do 1.0, tym ofiara lepiej przystosowany jest do danego terenu. Im bliżej tolerancji terenu do 0.0, tym ofiara gorzej przystosowany jest do danego terenu. Tolerancja terenu jest losowana z przedziału [0.1, 0.8] dla terenów, na których ofiara nie znajduje się oraz z przedziału [1.0, 1.5] dla terenu, na którym ofiara znajduje się. W ten sposób ofiary są bardziej przystosowane do terenu, na którym się znajdują.
+Listing 10 przedstawia system `spawn_organisms`, który odpowiada za stworzenie ofiar na planszy. Dla każdej ofiary losowana jest pozycja na planszy. Następnie dodawana jest tolerancja terenu w zależności od rodzaju terenu, na którym znajduje się ofiara. Wyższa wartość tolerancji terenu oznacza lepsze do niego przystosowanie. Im bliżej tolerancji terenu do 0.0, tym ofiara gorzej przystosowana jest do danego terenu. Tolerancja terenu jest losową liczbą z przedziału [0.1, 0.8] dla terenów, na których nie znajduje się ofiara oraz z przedziału [1.0, 1.5] dla terenu, na którym ofiara się znajduje. Rozwiązanie te ma odzwierciedlać lepsze przystosowanie jednostek do terenu, na którym żyją.
 
 #figure(
   ```rust
@@ -615,9 +642,10 @@ Listing 10 przedstawia system `spawn_organisms`, który odpowiada za stworzenie 
   }
   ```,
   caption: "System tworzący drapieżniki",
+  supplement: "Listing",
 )
 
-Listing 12 przedstawia system `spawn_predators`, który odpowiada za stworzenie drapieżników na planszy. Dla każdego drapieżnika losowana jest pozycja na planszy. Następnie dodaję drapieżnika na planszę z odpowiednimi parametrami początkowymi.
+Listing 12 przedstawia system `spawn_predators`, który odpowiada za stworzenie drapieżników na planszy. Dla każdego drapieżnika losowana jest pozycja na planszy. Następnie jest on dodawany do planszy z odpowiednimi parametrami początkowymi.
 
 #figure(
   ```rust
@@ -648,6 +676,7 @@ Listing 12 przedstawia system `spawn_predators`, który odpowiada za stworzenie 
   }
   ```,
   caption: "System wyświetlający ofiary",
+  supplement: "Listing",
 )
 
 #figure(
@@ -679,9 +708,10 @@ Listing 12 przedstawia system `spawn_predators`, który odpowiada za stworzenie 
   }
   ```,
   caption: "System wyświetlający drapieżniki",
+  supplement: "Listing",
 )
 
-Listingi 13 i 14 przedstawiają systemy `render_organisms` i `render_predators`, które odpowiadają za wyświetlenie ofiar i drapieżników na planszy. Dla każdego ofiary i drapieżnika tworzony jest odpowiedni kolor i kształt, a następnie tworzony jest odpowiedni obiekt na planszy z odpowiednim kolorem i pozycją. Organizmy są wyświetlane jako koła, a drapieżniki jako prostokąty. Organizmy są zielonkawe, a drapieżniki czerwone. W tych systemach argumenty funkcji są wyjątkowe dla ECS. `Query` jest strukturą, która przechowuje zbiór encji, które spełniają określone kryteria. W tym przypadku zwraca encje, które dla systemu `render_organisms` nie posiadają komponentu `Predator` oraz `Mesh2d`, a dla systemu `render_predators` nie posiadają komponentu `Organism` oraz `Mesh2d`. Natomiast posiadają komponent `Position`. Dzięki temu system dostaje tylko te encje, które zawierają tylko te dane, które są mu potrzebne do działania.
+Listingi 13 i 14 przedstawiają systemy `render_organisms` i `render_predators`, które odpowiadają za wyświetlenie ofiar i drapieżników na planszy. Ofiary są wyświetlane jako niebieskie koła, a drapieżniki jako czerwone prostokąty. Wymienione systemy korzystają ze składni i mechanizmów charakterystycznych dla architektury ECS, takich jak struktura `Query`, która przechowuje zbiór encji, które spełniają określone kryteria. W tym przypadku zwraca encje, które dla systemu `render_organisms` nie posiadają komponentu `Predator` oraz `Mesh2d`, a dla systemu `render_predators` nie posiadają komponentu `Organism` oraz `Mesh2d`, natomiast posiadają komponent `Position`. Dzięki temu system otrzymuje encje, które zawierają tylko te dane, które są mu potrzebne do działania.
 
 #show figure: set block(breakable: true)
 
@@ -753,9 +783,10 @@ Listingi 13 i 14 przedstawiają systemy `render_organisms` i `render_predators`,
   }
   ```,
   caption: "System odpowiedzialny za ruch ofiar",
+  supplement: "Listing",
 )
 
-W listingu 15 przedstawiony jest system `organism_movement`, który odpowiada za ruch ofiar na planszy. Dla każdego ofiary losowana jest nowa pozycja na planszy. Następnie dla każdego ofiary obliczam najlepszy kierunek ruchu na podstawie kosztu ruchu. Koszt ruchu zależy od rodzaju terenu, na którym znajduje się ofiara oraz tolerancji terenu. Im większa tolerancja terenu, tym mniejszy koszt ruchu. Im mniejsza tolerancja terenu, tym większy koszt ruchu. Koszt ruchu jest losowany z przedziału [0.0, 5.0]. Następnie obliczam nową pozycję ofiary na planszy oraz obliczam zużytą energię na podstawie prędkości i rozmiaru ofiary. Jeśli ofiara znajduje się na wodzie, to ustawiam jego energię na -1.0, co oznacza, że ofiara umiera. W ten sposób ofiary są bardziej przystosowane do terenu, na którym się znajdują. Ruch jest dozwolony w 8 kierunkach: góra, dół, lewo, prawo oraz po skosach. Energia ofiary zmniejsza się w zależności od prędkości i rozmiaru ofiary. Im większa prędkość i rozmiar ofiary, tym więcej energii zużywa na ruch.
+W listingu 15 przedstawiony jest system `organism_movement`, który odpowiada za ruch ofiar na planszy. Dla każdej ofiary losowana jest nowa pozycja na planszy. Następnie obliczany jest najlepszy kierunek ruchu na podstawie kosztu ruchu. Koszt ruchu zależy od rodzaju terenu, na którym znajduje się ofiara oraz tolerancji terenu. Im większa tolerancja terenu, tym mniejszy koszt ruchu. Koszt ruchu jest losowany z przedziału [0.0, 5.0]. Następnie obliczana jest nową pozycja ofiary na planszy, a także zużytą energię na podstawie prędkości i rozmiaru ofiary. Jeśli ofiara znajduje się na wodzie, to energia przyjmuje wartość -1.0, co oznacza, że ofiara umiera. W ten sposób ofiary są bardziej przystosowane do terenu, na którym się znajdują. Możliwych jest osiem kierunków ruchu: góra, dół, lewo, prawo oraz po skosach. Energia ofiary zmniejsza się w zależności od prędkości i rozmiaru. Im większa prędkość i rozmiar ofiary, tym więcej energii zużywa na ruch.
 
 #figure(
   ```rust
@@ -843,10 +874,11 @@ W listingu 15 przedstawiony jest system `organism_movement`, który odpowiada za
   }
   ```,
   caption: "System odpowiedzialny za ruch drapieżników",
+  supplement: "Listing",
 )
-System `predator_movement` przedstawiony w listingu 16 odpowiada za ruch drapieżników na planszy. Dla każdego drapieżnika obliczam najbliższą ofiarę. Jeśli ofiara znajduje się w zasięgu ataku drapieżnika, to drapieżnik rusza w jej kierunku. Jeśli ofiara nie znajduje się w zasięgu ataku drapieżnika, to drapieżnik rusza w losowym kierunku. Ruch drapieżnika jest dozwolony w 8 kierunkach: góra, dół, lewo, prawo oraz po skosach. Energia drapieżnika zmniejsza się w zależności od prędkości i rozmiaru drapieżnika. Im większa prędkość i rozmiar drapieżnika, tym więcej energii zużywa na ruch. Jeśli drapieżnik znajdzie się na wodzie, to ustawiam jego energię na -1.0, co oznacza, że drapieżnik umiera. Dystans jest dystansem euklidesowym między drapieżnikiem a ofiarą.
+System `predator_movement` przedstawiony w listingu 16 odpowiada za ruch drapieżników na planszy. Dla każdego drapieżnika obliczam najbliższą ofiarę (na podstawie odległości euklidesowej). Jeśli ofiara znajduje się w zasięgu ataku drapieżnika, to drapieżnik rusza w jej kierunku. W przeciwnym razie drapieżnik rusza w losowym kierunku. Ruch drapieżnika jest dozwolony w 8 kierunkach: góra, dół, lewo, prawo oraz po skosach. Energia drapieżnika zmniejsza się w zależności od prędkości i rozmiaru drapieżnika. Im większe wartości tych cech, tym więcej energii zużywa na ruch. Jeśli drapieżnik znajdzie się na wodzie, to energia przyjmuje wartość -1.0, co oznacza, że drapieżnik umiera.
 
-W obu systemach `organism_movement` i `predator_movement` sprawdzam czy dana jednostka posiada dodatnią energię, by w ogóle mogła się ruszać.
+W obu systemach `organism_movement` i `predator_movement` następuje sprawdzenie, czy dana jednostka posiada dodatnią energię, by w ogóle mogła się ruszać.
 
 #figure(
   ```rust
@@ -867,9 +899,10 @@ W obu systemach `organism_movement` i `predator_movement` sprawdzam czy dana jed
   }
   ```,
   caption: "Systemy usuwające martwe jednostki",
+  supplement: "Listing",
 )
 
-W listingu 17 przedstawione są systemy `despawn_dead_organisms` i `despawn_dead_predators`, które odpowiadają za usuwanie martwych jednostek z planszy. Dla każdej jednostki sprawdzam czy jej energia jest mniejsza lub równa 0.0. Jeśli tak, to usuwam jednostkę z planszy. Warto zauważyć, że używam metody `despawn_recursive`, która usuwa jednostkę wraz z jej dziećmi. Dzięki temu, jeśli jednostka posiada jakieś dzieci, to również zostaną one usunięte z planszy.
+W listingu 17 przedstawione są systemy `despawn_dead_organisms` i `despawn_dead_predators`, które odpowiadają za usuwanie martwych jednostek z planszy. Dla każdej jednostki sprawdzam, czy jej energia jest mniejsza lub równa 0.0. W takim przypadku usuwam jednostkę z planszy.
 
 #figure(
   ```rust
@@ -890,9 +923,10 @@ W listingu 17 przedstawione są systemy `despawn_dead_organisms` i `despawn_dead
   }
   ```,
   caption: "Systemy synchronizujące pozycję jednostek",
+  supplement: "Listing",
 )
 
-W listingu 18 przedstawione są systemy `organism_sync` i `predator_sync`, które odpowiadają za synchronizację pozycji jednostek na planszy. Dla każdej jednostki ustawiam odpowiednią pozycję oraz skalę. Pozycja jednostki jest obliczana na podstawie pozycji jednostki na planszy, a skala jednostki jest obliczana na podstawie rozmiaru jednostki.
+W listingu 18 przedstawione są systemy `organism_sync` i `predator_sync`, które odpowiadają za synchronizację pozycji jednostek na planszy. Dla każdej jednostki jest ustawiana odpowiednia pozycja oraz skala.
 
 #figure(
   ```rust
@@ -905,9 +939,10 @@ W listingu 18 przedstawione są systemy `organism_sync` i `predator_sync`, któr
   }
   ```,
   caption: "System odnawiający pożywienie na planszy",
+  supplement: "Listing",
 )
 
-W listingu 19 przedstawiony jest system `regenerate_food`, który odpowiada za odnowienie pożywienia na planszy. Dla każdego kafelka na planszy odnawiam pożywienie na podstawie ustawień konfiguracyjnych. Pożywienie odnawia się w zależności od rodzaju terenu. Im bardziej żyzny teren, tym więcej pożywienia jest odnawiane.
+W listingu 19 przedstawiony jest system `regenerate_food`, który odpowiada za odnowienie pożywienia na planszy. Dla każdego kafelka na planszy pożywienie jest odnawiane na podstawie ustawień konfiguracyjnych i zależy od rodzaju terenu. Im bardziej żyzny teren, tym więcej pożywienia jest odnawiane.
 
 #figure(
   ```rust
@@ -952,9 +987,10 @@ W listingu 19 przedstawiony jest system `regenerate_food`, który odpowiada za o
   }
   ```,
   caption: "System spożywania dla ofiar",
+  supplement: "Listing",
 )
 
-W listingu 20 przedstawiony jest system `consume_food`, który odpowiada za spożywanie jedzenia przez ofiary. Na początku zbieram ofiary na danym kafelku. Następnie sprawdzam czy na danym kafelku jest dostępne jedzenie. Jeśli nie ma jedzenia, to przechodzę do następnego kafelka. Potem sortuję ofiary na danym kafelku od największego do najmniejszego. Następnie tworzę zmienną, która przechowuje informację o tym ile jedzenia zostało na danym kafelku. Potem dla każdego ofiary obliczam ile jedzenia potrzebuje na podstawie rozmiaru oraz prędkości ofiary. Odejmuję od dostępnego jedzenia ilość jedzenia, którą zjadł ofiara. Następnie dodaję energię organizmowi na podstawie zjedzonego jedzenia pomnożonego przez arbitralną wartość 2.0. Na końcu odejmuję zjedzone jedzenie od dostępnego jedzenia na kafelku. Jeśli ofiara zje więcej jedzenia niż jest dostępne na kafelku, to zje tylko tyle ile jest dostępne. Natomiast jak jedzenie na kafelku się skończy, to ofiary nie będą mogły zjeść jedzenia z tego kafelka.
+W listingu 20 przedstawiony jest system `consume_food`, który odpowiada za spożywanie jedzenia przez ofiary. Na początku zbierane są ofiary na danym kafelku. Następnie sprawdzenie czy jest dostępne jedzenie. Jeśli go nie ma, to rozpatrywany jest następny kafelek. Następnie wykonywane jest sortowanie ofiar od największego do najmniejszego. Dla każdej ofiary obliczam, ile jedzenia potrzebuje, na podstawie rozmiaru oraz prędkości jednostki. Od ilości obecnego jedzenia odejmowana jest ilość jedzenia spożytego przez daną ofiarę. Następnie dodawana jest energia ofiarze na podstawie zjedzonego jedzenia pomnożonego przez wartość dobraną w sposób arbitalny - 2.0. Jednostka nie może zjeść więcej jedzenia, niż jest dostępne na danym kafelku.
 
 #figure(
   ```rust
@@ -982,9 +1018,12 @@ W listingu 20 przedstawiony jest system `consume_food`, który odpowiada za spo�
   }
   ```,
   caption: "System adaptacji do terenu dla ofiar",
+  supplement: "Listing",
 )
 
-W listingu 21 przedstawiony jest system `biome_adaptation`, który odpowiada za adaptację ofiar do terenu. Ten system odpowiada za bierne wpływanie na energię ofiar. W zależności od rodzaju terenu, na którym znajduje się ofiara, energia ofiary zmniejsza się lub zwiększa. Lasy są bogate w jedzenie, więc ofiary zyskują energię, pustynie są ubogie w jedzenie, więc ofiary tracą energię, woda nie jest dobrym miejscem dla ofiar, więc ofiary tracą całą energię, łąki są dobre do pasienia, więc ofiary zyskują energię. Tolerancja terenu wpływa na to, jak bardzo ofiara jest przystosowany do danego terenu, co z kolei zwiększa bądź zmniejsza ilość zyskanej lub utraconej energii.
+W listingu 21 przedstawiony jest system `biome_adaptation`, który odpowiada za adaptację ofiar do terenu. W zależności od rodzaju terenu, na którym znajduje się ofiara, energia ofiary zmniejsza się lub zwiększa. Lasy są bogate w jedzenie, więc znajdujące się na tym terenie jednostki zyskują energię. Pustynie są ubogie w jedzenie, więc ofiary tracą energię. Woda nie jest dobrym miejscem dla ofiar, więc jednostki tracą całą energię. Jednostki znajdujące się na łąkach zyskują energię. Tolerancja terenu wpływa na to, jak bardzo ofiara jest do niego przystosowana, co ma wpływ na zwiększenie bądź zmniejszenie ilości zyskanej lub utraconej energii.
+
+#pagebreak()
 
 #figure(
   ```rust
@@ -1047,11 +1086,12 @@ W listingu 21 przedstawiony jest system `biome_adaptation`, który odpowiada za 
   }
   ```,
   caption: "System rozmnażania dla ofiar",
+  supplement: "Listing",
 )
 
-W listingu 22 przedstawiony jest system `reproduction`, który odpowiada za rozmnażanie ofiar. Dla każdego ofiary sprawdzam czy jego energia jest większa od progu reprodukcji. Jeśli tak, to tworzę nowego potomka na podstawie ustawień konfiguracyjnych. Następnie losuję mutacje dla nowego potomka. Mutacje są losowane z przedziału `[-mutation_factor, mutation_factor]`. Następnie tworzę nowego potomka na podstawie mutacji. Potomek ma połowę energii rodzica, prędkość, rozmiar oraz próg reprodukcji są mutowane. Następnie losuję pozycję potomka w sąsiedztwie rodzica. Na końcu zmniejszam energię rodzica o połowę. Dzięki temu ofiary mogą się rozmnażać i przekazywać swoje cechy potomstwu.
+W listingu 22 przedstawiony jest system `reproduction`, który odpowiada za rozmnażanie ofiar. Dla każdej ofiary następuje sprawdzenie, czy jej energia jest większa od progu reprodukcji. Jeśli tak, to tworzony jest nowy potomek. Nowo powstałe osobniki mogą ulec mutacji. Współczynnik odpowiadający za mutację jest losowany z przedziału `[-mutation_factor, mutation_factor]`. Potomek posiada połowę energii rodzica, a prędkość, rozmiar oraz próg reprodukcji są modyfikowane w zależności od współczynnika mutacji. Na końcu energia rodzica jest zmniejszona o połowę.
 
-Jeśli liczba ofiar i drapieżników przekroczy maksymalną liczbę jednostek na planszy, to nie będą mogły się rozmnażać. Dzięki temu ograniczam liczbę jednostek na planszy.
+Jeśli liczba ofiar i drapieżników przekroczy maksymalną liczbę jednostek na planszy, to nie będą mogły się rozmnażać.
 
 #figure(```rust
 fn hunting(
@@ -1076,7 +1116,7 @@ fn hunting(
 }
 ```)
 
-W listingu 23 przedstawiony jest system `hunting` odpowiedzialny za polowanie drapieżników na ofiary. Dla każdego drapieżnika sprawdzam czy jego energia jest mniejsza od progu sytości. Jeśli tak, to sprawdzam czy drapieżnik znajduje się na tym samym kafelku co ofiara. Jeśli tak, to drapieżnik zjada ofiarę i zyskuje energię na podstawie rozmiaru ofiary oraz efektywności polowania drapieżnika. Następnie usuwam ofiarę z planszy. Dzięki temu drapieżniki mogą polować na ofiary i zyskiwać energię.
+W listingu 23 przedstawiony jest system `hunting` odpowiedzialny za polowanie drapieżników na ofiary. Dla każdego drapieżnika jest sprawdzenie, czy jego energia jest mniejsza od progu sytości oraz określane jest, czy drapieżnik znajduje się na tym samym kafelku co ofiara. Jeśli tak, to drapieżnik zjada ofiarę i zyskuje energię na podstawie rozmiaru ofiary oraz efektywności polowania drapieżnika. Następnie ofiara jest usuwana z planszy. Dzięki temu drapieżniki mogą zyskiwać energię.
 
 #figure(
   ```rust
@@ -1134,11 +1174,10 @@ W listingu 23 przedstawiony jest system `hunting` odpowiedzialny za polowanie dr
   }
   ```,
   caption: "System rozmnażania dla drapieżników",
+  supplement: "Listing",
 )
 
-System rozmnażania dla drapieżników przedstawiony w listingu 24 działa analogicznie do systemu rozmnażania dla ofiar. Dla każdego drapieżnika sprawdzam czy jego energia jest większa od progu reprodukcji. Jeśli tak, to tworzę nowego potomka na podstawie ustawień konfiguracyjnych. Następnie losuję mutacje dla nowego potomka. Mutacje są losowane z przedziału `[-mutation_factor, mutation_factor]`. Następnie tworzę nowego potomka na podstawie mutacji. Potomek ma połowę energii rodzica, prędkość, rozmiar, efektywność polowania, próg sytości oraz próg reprodukcji są mutowane. Następnie losuję pozycję potomka w sąsiedztwie rodzica. Na końcu zmniejszam energię rodzica o połowę. Dzięki temu drapieżniki mogą się rozmnażać i przekazywać swoje cechy potomstwu.
-
-Analogicznie do systemu reprodukcji ofiar, u drapieżników również sprawdzana jest ilość jednostek na planszy. Jeśli liczba jednostek przekroczy maksymalną liczbę jednostek na planszy, to drapieżniki nie będą mogły się rozmnażać.
+System rozmnażania dla drapieżników przedstawiony w listingu 24 działa podobnie do systemu rozmnażania dla ofiar.
 
 #figure(
   ```rust
@@ -1200,9 +1239,10 @@ Analogicznie do systemu reprodukcji ofiar, u drapieżników również sprawdzana
   }
   ```,
   caption: "System przeludnienia",
+  supplement: "Listing",
 )
 
-System przeludnienia przedstawiony w listingu 25 odpowiada za usuwanie jednostek z planszy, gdy przekroczona zostanie maksymalna liczba jednostek na kafelku. Dla każdego kafelka na planszy zbieram ofiary i drapieżniki. Następnie sprawdzam czy liczba ofiar na kafelku przekracza próg przeludnienia dla ofiar. Jeśli tak, to sortuję ofiary na kafelku od najmniej energii do najwięcej energii. Następnie usuwam ofiary, które przekraczają próg przeludnienia dla ofiar. Analogicznie postępuję z drapieżnikami. Dzięki temu ograniczam liczbę jednostek na kafelku.
+System przeludnienia przedstawiony w listingu 25 odpowiada za usuwanie jednostek z planszy, gdy przekroczona zostanie ich maksymalna liczba na kafelku. Jeśli liczba ofiar na kafelku przekracza próg przeludnienia, jednostki są sortowane od najmniejszej energii do największej. Nastepnie organizmy o najmniejszej energii są usuwane.
 
 #figure(
   ```rust
@@ -1211,98 +1251,110 @@ System przeludnienia przedstawiony w listingu 25 odpowiada za usuwanie jednostek
   }
   ```,
   caption: "System inkrementacji numeru pokolenia",
+  supplement: "Listing",
 )
 
-W listingu 26 przedstawiony jest najkrótszy system w całym programie. System `increment_generation` odpowiada za inkrementację numeru pokolenia.
+W listingu 26 przedstawiony jest system `increment_generation`, który odpowiada za inkrementację numeru pokolenia.
 
-#figure(```rust
-fn initialize_log_file(config: Res<Config>) {
-    if !config.log_data {
-        return;
-    }
+#figure(
+  ```rust
+  fn initialize_log_file(config: Res<Config>) {
+      if !config.log_data {
+          return;
+      }
 
-    let world_file = File::create("world_data.jsonl").expect("Failed to create log file");
-    world_file.set_len(0).expect("Failed to clear log file");
-}
-```)
+      let world_file = File::create("world_data.jsonl").expect("Failed to create log file");
+      world_file.set_len(0).expect("Failed to clear log file");
+  }
+  ```,
+  caption: "System inicjalizacji pliku danych",
+  supplement: "Listing",
+)
 
-W listingu 27 przedstawiony jest system `initialize_log_file`, który odpowiada za inicjalizację pliku danych symulacji. Jeśli w konfiguracji ustawiono, że dane mają być zapisywane do pliku, to tworzę plik `world_data.jsonl` i czyszczę go. Format pliku `jsonl`
-to format JSON, w którym każda linia to osobny obiekt JSON. Dzięki temu mogę łatwo parsować plik JSON linia po linii i dodatkowo ułatwia to zapis danych do pliku wraz z postępem symulacji.
+W listingu 27 przedstawiony jest system `initialize_log_file`, który odpowiada za inicjalizację pliku danych symulacji. Jeśli w konfiguracji ustawiono, że dane mają być zapisywane do pliku, to tworzony jest pusty plik `world_data.jsonl`.
 
-#figure(```rust
-fn log_world_data(
-    config: Res<Config>,
-    world: Res<World>,
-    generation: Res<Generation>,
-    organisms_query: Query<(&Organism, &Position)>,
-    predators_query: Query<(&Predator, &Position)>,
-) {
-    if !config.log_data {
-        return;
-    }
+#figure(
+  ```rust
+  fn log_world_data(
+      config: Res<Config>,
+      world: Res<World>,
+      generation: Res<Generation>,
+      organisms_query: Query<(&Organism, &Position)>,
+      predators_query: Query<(&Predator, &Position)>,
+  ) {
+      if !config.log_data {
+          return;
+      }
 
-    let mut file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open("world_data.jsonl")
-        .expect("Failed to open log file");
+      let mut file = OpenOptions::new()
+          .create(true)
+          .append(true)
+          .open("world_data.jsonl")
+          .expect("Failed to open log file");
 
-    let organisms_with_position = organisms_query
-        .iter()
-        .map(|(organism, position)| OrganismWithPosition {
-            organism: organism.clone(),
-            position: position.clone(),
-        })
-        .collect::<Vec<_>>();
+      let organisms_with_position = organisms_query
+          .iter()
+          .map(|(organism, position)| OrganismWithPosition {
+              organism: organism.clone(),
+              position: position.clone(),
+          })
+          .collect::<Vec<_>>();
 
-    let predators_with_position = predators_query
-        .iter()
-        .map(|(predator, position)| PredatorWithPosition {
-            predator: predator.clone(),
-            position: position.clone(),
-        })
-        .collect::<Vec<_>>();
+      let predators_with_position = predators_query
+          .iter()
+          .map(|(predator, position)| PredatorWithPosition {
+              predator: predator.clone(),
+              position: position.clone(),
+          })
+          .collect::<Vec<_>>();
 
-    let export_data = ExportData {
-        generation: generation.0,
-        world: world.clone(),
-        config: config.clone(),
-        organisms: organisms_with_position,
-        predators: predators_with_position,
-    };
+      let export_data = ExportData {
+          generation: generation.0,
+          world: world.clone(),
+          config: config.clone(),
+          organisms: organisms_with_position,
+          predators: predators_with_position,
+      };
 
-    let json = serde_json::to_string(&export_data).expect("Failed to serialize data");
+      let json = serde_json::to_string(&export_data).expect("Failed to serialize data");
 
-    writeln!(file, "{}", json).expect("Failed to write to log file");
-}
-```)
-W listingu 28 przedstawiony jest system `log_world_data`, który odpowiada za zapis danych symulacji do pliku. Jeśli w konfiguracji ustawiono, że dane mają być zapisywane do pliku, to otwieram plik `world_data.jsonl` w trybie dodawania i tworzenia pliku, a następnie zapisuję dane symulacji do pliku. Dane symulacji zawierają numer pokolenia, stan planszy, ustawienia konfiguracyjne, ofiary oraz drapieżniki na planszy. Dane są zapisywane w formacie JSON.
+      writeln!(file, "{}", json).expect("Failed to write to log file");
+  }
+  ```,
+  caption: "System zapisu danych do pliku",
+  supplement: "Listing",
+)
+W listingu 28 przedstawiony jest system `log_world_data`, który odpowiada za zapis danych symulacji. Jeśli w konfiguracji ustawiono, że dane mają być zapisywane, to otwierany jest plik `world_data.jsonl` w trybie dodawania i tworzenia pliku, a następnie zapisywane do niego są dane symulacji takie jak numer pokolenia, stan planszy, ustawienia konfiguracyjne, ofiary oraz drapieżniki na planszy. Dane są zapisywane w formacie JSON.
 
-#figure(```rust
-fn handle_camera_movement(
-    mut query: Query<(&mut Transform, &Camera)>,
-    keys: Res<ButtonInput<KeyCode>>,
-) {
-    for (mut transform, _) in query.iter_mut() {
-        let mut translation = transform.translation;
+#figure(
+  ```rust
+  fn handle_camera_movement(
+      mut query: Query<(&mut Transform, &Camera)>,
+      keys: Res<ButtonInput<KeyCode>>,
+  ) {
+      for (mut transform, _) in query.iter_mut() {
+          let mut translation = transform.translation;
 
-        if keys.pressed(KeyCode::KeyW) {
-            translation.y += 5.0;
-        }
-        if keys.pressed(KeyCode::KeyS) {
-            translation.y -= 5.0;
-        }
-        if keys.pressed(KeyCode::KeyA) {
-            translation.x -= 5.0;
-        }
-        if keys.pressed(KeyCode::KeyD) {
-            translation.x += 5.0;
-        }
+          if keys.pressed(KeyCode::KeyW) {
+              translation.y += 5.0;
+          }
+          if keys.pressed(KeyCode::KeyS) {
+              translation.y -= 5.0;
+          }
+          if keys.pressed(KeyCode::KeyA) {
+              translation.x -= 5.0;
+          }
+          if keys.pressed(KeyCode::KeyD) {
+              translation.x += 5.0;
+          }
 
-        transform.translation = translation;
-    }
-}
-```)
+          transform.translation = translation;
+      }
+  }
+  ```,
+  caption: "System obsługujący ruch kamery",
+  supplement: "Listing",
+)
 
 System `handle_camera_movement` odpowiada za obsługę ruchu kamery przy pomocy klawiszy `WSAD`.
 
@@ -1378,13 +1430,14 @@ System `handle_camera_movement` odpowiada za obsługę ruchu kamery przy pomocy 
   }
   ```,
   caption: "Funkcje do obsługi konfiguracji",
+  supplement: "Listing",
 )
 
-W listingu 30 przedstawione są funkcje do obsługi konfiguracji. Funkcja `load_config` wczytuje konfigurację z pliku `config.toml`. Funkcja `default_config` zwraca domyślną konfigurację, jeśli nie uda się wczytać konfiguracji z pliku. Funkcja `get_config` zwraca konfigurację. Jeśli program jest uruchomiony w przeglądarce, to zwracana jest domyślna konfiguracja. W przeciwnym przypadku zwracana jest wczytana konfiguracja z pliku.
+W listingu 30 przedstawione są funkcje do obsługi konfiguracji. `load_config` wczytuje konfigurację z pliku `config.toml`, `default_config` zwraca domyślną konfigurację, jeśli nie uda się wczytać konfiguracji z pliku, `get_config` zwraca konfigurację. Jeśli program jest uruchomiony w przeglądarce, to zwracana jest domyślna konfiguracja. W przeciwnym przypadku zwracana jest wczytana konfiguracja z pliku.
 
 == Wizualizacja
 
-W tej części pracy omówię kod odpowiedzialny za wizualizację oraz przetwarzanie danych. Skupię się przede wszystkim na tym, jak poradziłem sobie z wczytywaniem i analizą bardzo dużych zbiorów danych, dbając o efektywne wykorzystanie pamięci operacyjnej. Kod jest napisany w języku *Python*.
+W punkcie 5.3 przedstawiam kod odpowiedzialny za wizualizację oraz przetwarzanie danych. Skupię się przede wszystkim na tym, jak poradziłem sobie z wczytywaniem i analizą bardzo dużych zbiorów danych, dbając o efektywne wykorzystanie pamięci operacyjnej. Wykorzystałem język *Python*.
 
 #figure(
   ```python
@@ -1395,9 +1448,10 @@ W tej części pracy omówię kod odpowiedzialny za wizualizację oraz przetwarz
   import seaborn as sns
   ```,
   caption: "Importowanie bibliotek",
+  supplement: "Listing",
 )
 
-W pierwszej kolejności importuję potrzebne biblioteki do wizualizacji danych. Biblioteka `json` jest potrzebna do wczytania danych z pliku JSON, biblioteka `numpy` do operacji na macierzach, biblioteka `pandas` do operacji na danych, biblioteka `matplotlib` do tworzenia wykresów, a biblioteka `seaborn` do tworzenia wykresów statystycznych jak wykres mapy cieplnej.
+W pierwszej kolejności importowane są potrzebne biblioteki do wizualizacji danych. Biblioteka `json` służy do wczytania danych z pliku JSON, `numpy` do operacji na macierzach, `pandas` do wykonywania operacji na danych, `matplotlib` do tworzenia wykresów, a `seaborn` do tworzenia wykresów statystycznych jak wykres mapy cieplnej.
 
 #figure(
   ```python
@@ -1429,9 +1483,10 @@ W pierwszej kolejności importuję potrzebne biblioteki do wizualizacji danych. 
   average_food_per_generation = []
   ```,
   caption: "Inicjalizacja zmiennych",
+  supplement: "Listing",
 )
 
-W powyższym listingu tworzę zmienne, które będą mi potrzebne do stworzenia wykresów. Zmienna `jsonl_file` przechowuje ścieżkę do pliku z danymi. Zmienne `generations`, `organism_count`, `predator_count`, `width`, `height` przechowują informacje o pokoleniach, liczbie ofiar, liczbie drapieżników, szerokości i wysokości planszy. Zmienna `gen_list` przechowuje listę pokoleń, `organism_counts` i `predator_counts` przechowują listę liczby ofiar i drapieżników w każdym pokoleniu. Zmienna `biome_counts` przechowuje liczbę kafelków z danym rodzajem terenu w każdym pokoleniu. Zmienna `heatmap_grid` przechowuje mapę cieplną, a `last_snapshot` ostatni stan planszy. Pozostałe zmienne przechowują średnie wartości cech ofiar i drapieżników w każdym pokoleniu.
+W powyższym listingu inicjalizowane są zmienne, które będą potrzebne do stworzenia wykresów. Zmienna `jsonl_file` przechowuje ścieżkę do pliku z danymi. `generations`, `organism_count`, `predator_count`, `width`, `height` przechowują informacje o pokoleniach, liczbie ofiar, liczbie drapieżników, szerokości i wysokości planszy. Zmienna `gen_list` zawiera listę pokoleń, `organism_counts` i `predator_counts` przechowują listę liczby ofiar i drapieżników w każdym pokoleniu. `biome_counts` odpowiada za liczbę kafelków z danym rodzajem terenu w każdym pokoleniu. Zmienna `heatmap_grid` przechowuje mapę cieplną, a `last_snapshot` ostatni stan planszy. Pozostałe zmienne przechowują średnie wartości cech ofiar i drapieżników w każdym pokoleniu.
 
 #figure(
   ```python
@@ -1502,9 +1557,10 @@ W powyższym listingu tworzę zmienne, które będą mi potrzebne do stworzenia 
               print(f"Processed {len(gen_list)} generations...")
   ```,
   caption: "Przetwarzanie danych",
+  supplement: "Listing",
 )
 
-Wczytuję dane z pliku `world_data.jsonl` i przetwarzam je, co ważne dane przetwarzane są linijka po linijce co jest istotne, gdyż plik może być bardzo duży i w przeciwnym wypadku program mógłby zużyć dużo pamięci, której komputer niekoniecznie posiada. Wczytuję dane o pokoleniu, liczbie ofiar, liczbie drapieżników, szerokości i wysokości planszy. Tworzę mapę cieplną planszy, a także obliczam średnie wartości cech ofiar i drapieżników w każdym pokoleniu. Obliczam również liczbę kafelków z danym rodzajem terenu w każdym pokoleniu oraz średnią ilość jedzenia na planszy. Dodatkowo co 100 pokoleń wypisuję informację o przetworzonych pokoleniach.
+Dane z pliku `world_data.jsonl` są wczytywane i przetwarzane. Istotne jest to, że dane przetwarzane są linijka po linijce, gdyż plik może być bardzo duży i w przeciwnym wypadku program mógłby zużyć dużo pamięci, której komputer nie posiada. Wczytywane są dane o pokoleniu, liczbie ofiar i drapieżników, szerokości i wysokości planszy. Następnie tworzona jest mapa cieplna planszy, a także obliczane są średnie wartości cech ofiar i drapieżników w każdym pokoleniu. Obliczane jest również liczba kafelków z danym rodzajem terenu w każdym pokoleniu oraz średnia ilość jedzenia na planszy. Dodatkowo co 100 pokoleń wypisywana jest informacja o przetworzonych pokoleniach.
 
 == Wyniki
 
