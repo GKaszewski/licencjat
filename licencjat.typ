@@ -42,7 +42,7 @@ Symulację napisałem w języku Rust z wykorzystaniem biblioteki *Bevy*, która 
 
 = Entity Component System <ecs>
 == Wstęp <ecs_wstep>
-*ECS* to współczesna architektura oprogramowania stosowana głównie w grach komputerowych oraz symulacjach. Umożliwia ona elastyczne i wydajne zarządzanie złożonymi systemami. Główną ideą *ECS* jest oddzielenie danych (komponentów) od logiki (systemów) oraz traktowanie encji (patrz punkt 3.2)) jedynie jako identyfikatorów, co pozwala na łatwiejsze skalowanie, modyfikację oraz optymalizację (np. w kontekście wielowątkowości). W tym rozdziale wyjaśniam podstawowe pojęcia związane z *ECS*, jego strukturę oraz zalety.
+*ECS* to współczesna architektura oprogramowania stosowana głównie w grach komputerowych oraz symulacjach. Umożliwia ona elastyczne i wydajne zarządzanie złożonymi systemami. Główną ideą *ECS* jest oddzielenie danych (komponentów) od logiki (systemów) oraz traktowanie encji (patrz punkt 3.2) jedynie jako identyfikatorów, co pozwala na łatwiejsze skalowanie, modyfikację oraz optymalizację (np. w kontekście wielowątkowości). W tym rozdziale wyjaśniam podstawowe pojęcia związane z *ECS*, jego strukturę oraz zalety.
 == Encje <encje>
 *Encje* (ang. _entities_) stanowią podstawowy element *ECS*. Są one reprezentowane najczęściej jako unikalne identyfikatory (np. liczby całkowite) i same w sobie nie zawierają żadnych danych ani elementów logicznych. Encje są "nosicielami" komponentów, które definiują ich właściwości. Dzięki temu, encje zajmują mało miejsca w pamięci, a zarządzanie nimi - np. tworzenie, usuwanie czy modyfikacja - odbywa się w sposób efektywny, ponieważ nie wymaga to przeszukiwania złożonych struktur danych.
 
