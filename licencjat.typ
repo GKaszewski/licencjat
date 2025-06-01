@@ -33,7 +33,10 @@
 = Streszczenie <streszczenie>
 Celem niniejszej pracy było opracowanie symulacji ewolucji populacji organizmów funkcjonujących w zróżnicowanym środowisku. Inspiracją do podjęcia tego tematu była koncepcja automatów komórkowych; prostych modeli obliczeniowych, w których lokalne reguły mogą prowadzić do powstawania złożonych, emergentnych zachowań. W ramach realizacji projektu wykorzystano język *Rust* wraz z biblioteką *Bevy* do implementacji symulacji, natomiast do analizy i wizualizacji wyników posłużono się językiem *Python* oraz popularnymi bibliotekami do przetwarzania danych. Efektem pracy jest program umożliwiający symulację procesów ewolucyjnych populacji organizmów, w którym Użytkownik może definiować różne parametry, takie jak początkowa ilość ofiar, drapieżników, stopień mutacji, rozmiar planszy, początkowy próg reprodukcji itp. wpływające na przebieg symulacji i obserwować zmiany zachodzące w populacjach w zależności od zadanych warunków.
 
-Symulacja wykazała, że nawet proste reguły mogą prowadzić do nieoczywistych i złożonych efektów ewolucyjnych. Przykładowo, w warunkach silnej presji drapieżników ofiary nie ewoluowały w kierunku mniejszych, energooszczędnych form, lecz przeciwnie stawały się większe i bardziej zasobochłonne. Jest to przkład emergentnego wyścigu zbrojeń pomiędzy drapieżnikiem a ofiarą. Uzyskane wyniki pokazują potencjał tego typu modeli do badania zjawisk biologicznych oraz ich dalszego rozwoju.
+W pracy rozważyłem trzy różne scenariusze. W pierwszym scenariuszu badałem jak poziom mutacji wpływa na adaptację populacji do środowiska. Rezultaty pokazały, że zbyt niski poziom mutacji ogranicza zdolności adaptacyjne organizmów. Z kolei zbyt wysoki poziom prowadził do niestabilności cech, co skutkowało chaotycznym rozkładem przystosowań i częstymi wahaniami populacji. Optymalne rezultaty uzyskano przy średnim poziomie mutacji.
+W drugim scenariuszu badałem rolę drapieżników w procesie ewolucji ofiar. Wyniki pokazały, że umiarkowana presja drapieżników stabilizuje populację i promouje rozwój korzystnych cech, takich jak większa szybkość czy niższy próg reprodukcji. Jednak zbyt silna presja prowadziła do wyginięcia ofiar, a w konsekwencji również drapieżników. Co interesujące, ofiary nie ewoluowały w kierunku mniejszych i szybszych jednostek, lecz przeciwnie, stawały się większe i miały wyższy próg reprodukcji. W trzecim scenariuszu analizowałem wpływ dostępności jedzenia i różnorodności środowiska na strategie przetrwania. W środowiskach bogatych populacje ofiar rozwijały się dynamicznie, lecz często prowadziło to do przeludnienia. W środowiskach jałowych przeżywały jedynie najlepiej przystosowane jednostki, a tempo wzrostu populacji było znacznie wolniejsze.
+
+Symulacja wykazała, że nawet proste reguły mogą prowadzić do nieoczywistych i złożonych efektów ewolucyjnych. Przykładowo, w warunkach silnej presji drapieżników ofiary nie ewoluowały w kierunku mniejszych, energooszczędnych form, lecz przeciwnie stawały się większe i bardziej zasobochłonne. Jest to przkład emergentnego wyścigu zbrojeń pomiędzy drapieżnikiem a ofiarą. Uzyskane wyniki pokazują potencjał tego typu modeli do badania zjawisk biologicznych oraz ich dalszego rozwoju. Kierunkiem dalszego rozwoju może być m. in. wprowadzenie mechanizmów uczenia lub pamięci, symulacja większej ilości gatunków, wprowadzenie zmiennych klimatycznych, genomów czy genotypów.
 
 = Wprowadzenie <wprowadzenie>
 Celem pracy jest zbadanie możliwości modelowania procesów ewolucyjnych przy wykorzystaniu automatów komórkowych i *Entity Component System*, który w dalszej części pracy będzie przedstawiany jako *ECS*. Praca ma na celu nie tylko pogłębienie teorytycznych podstaw modelowania ewolucji przy użyciu dyskretnych metod obliczeniowych, ale także popularyzację nowoczesnych technik programistycznych.
@@ -113,11 +116,11 @@ Najbardziej znanym przykładem automatu komórkowego jest gra w życie Johna Con
 Te przykłady pokazują, że automaty komórkowe są niezwykle wszechstronnym narzędziem, które znalazło zastosowanie zarówno w teorii, jak i w praktycznych zastosowaniach.
 
 = Mój model <model>
-Zainspirowany automatami komórkowymi stworzyłem symulację ewolucji populacji organizmów. Są dwa rodzaje organizmów: ofiary i drapieżniki.
+Zainspirowany automatami komórkowymi stworzyłem symulację ewolucji populacji organizmów. Wyróżniamy dwa rodzaje organizmów: ofiary i drapieżniki.
 
 Plansza, bądź świat, w którym odbywa się symulacja jest dwuwymiarową siatką, zbudowaną z czterech rodzajów kafelków (woda, las, pustynia i trawa). Każdy typ terenu ma swoje własne właściwości jak np. dostępność pożywienia, prędkość odnowy pożywienia, jak szybko i chętnie organizmy poruszają się po nim.
 
-W mojej symulacji mam dwa rodzaje organizmów: ofiary i drapieżniki. Ofiary dostają energię z jedzenia, które jest na danym kafelku. Drapieżniki z kolei dostają energię z jedzenia ofiar. Każdy organizm ma swoje własne cechy jak energia, prędkość, rozmiar, próg rozmnażania, tolerancja terenu, drapieżniki mają dodatkowo wydajność polowania i próg głodu.
+W mojej symulacji istnieją dwa rodzaje organizmów: ofiary i drapieżniki. Ofiary dostają energię z jedzenia, które jest na danym kafelku. Drapieżniki z kolei dostają energię z jedzenia ofiar. Każdy organizm ma swoje własne cechy jak energia, prędkość, rozmiar, próg rozmnażania, tolerancja terenu, drapieżniki mają dodatkowo wydajność polowania i próg głodu.
 
 Wszystkie organizmy potrzebują energi do przeżycia. Jeśli zabraknie tego zasobu, jednostka ginie.
 Natomiast, jeśli organizm przekroczy próg rozmnażania, to tworzy nową jednostkę. W każdym kroku czasowym każda jednostka zużywa energię, tym więcej im jest szybsza. Drapieżniki polują na ofiary, gdy ich energia spadnie poniżej progu głodu i poszukuje najbliższej ofiary. Każdy drapieżnik ma zasięg polowania, który wynosi jedną komórkę. Wydajność polowania wpływa na to ile energii drapieżnik dostanie z jedzenia.
@@ -511,7 +514,7 @@ W powyższym listingu przedstawiony jest zasób `Generation`, który przechowuje
   supplement: "Listing",
 )
 
-W listingu 8 przedstawiona jest funkcja programu, od której zaczyna się wykonywanie kodu. Na samym początku wczytywany jest plik konfiguracyjny i wypisywana jest jego treść do punktu wyjścia. Następnie pobrana jest flaga z ustawień konfiguracyjnych, która odpowiada za to czy symulacja powinna być uruchomiona w trybie bezokienkowym czy okienkowym. Zmienna `app` przechowuje aplikację *Bevy*. W zależności od wartości flagi, dodawane są odpowiednie wtyczki. Wtyczka `MinimalPlugins` dodaje minimalny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie bezokienkowym, a wtyczka `DefaultPlugins` dodaje domyślny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie okienkowym. Następnie wstawiany jest zasób `World` z nowym światem, któremu przekazywane są ustawienia z pliku konfiguracyjnego, `Config` z ustawieniami konfiguracyjnymi, `Generation` z aktualnym pokoleniem. Następnie dodawane są systemy, które mają zostać wykonane w trakcie działania symulacji. Istnieją dwie kategorie systemów `Startup` i `Update`. Systemy należące do grupy `Startup` sa uruchamiane tylko raz na początku symulacji, a systemy z grupy `Update` są wykonywane w każdej klatce symulacji. Systemy z grupy `Startup` odpowiadają za inicjalizację symulacji oraz potrzebnych plików do zapisywania danych, natomiast te z grupy `Update` - odpowiadają za aktualizację stanu symulacji, ruch jednostek, polowanie, rozmnażanie, zapisywanie danych, obsługę kamery oraz usuwanie martwych jednostek. Na końcu uruchamiana jest symulacja za pomocą metody `run`. Systemy są wykonywane równolegle, co pozwala na zwiększenie wydajności symulacji. Wyjątkiem jest system `hunting`, który jest wykonywany przed systemami: `render_organisms`, `render_predators`, `organism_movement`, `predator_movement`, `organism_sync`, `predator_sync`, `despawn_dead_organisms`, `despawn_dead_predators`, `regenerate_food`, `consume_food`, `overcrowding`, `biome_adaptation`, `reproduction`, `predator_reproduction`, `increment_generation`, `log_organism_data`, `log_world_data`, `handle_camera_movement`. Rozwiązanie to jest spowodowane tym, że gdy ofiara zostanie zjedzona, to musi zniknąć z planszy, przez co mogło zdarzyć się, że system odpowiedzialny za polowanie próbował zjeść ofiarę, której nie było już na planszy, co powodowało błąd krytyczny w programie. W ten sposób można uniknąć tego problemu. Negatywną konsekwencją tego rozwiązania jest to, że planer (ang. _scheduler_) musi wykonać więcej pracy i może to wpłynąć niekorzystnie na wydajność symulacji.
+W listingu 8 przedstawiona jest funkcja programu, od której zaczyna się wykonywanie kodu. Na samym początku wczytywany jest plik konfiguracyjny i wypisywana jest jego treść do punktu wyjścia. Następnie pobierana jest flaga z ustawień konfiguracyjnych, która odpowiada za to czy symulacja powinna być uruchomiona w trybie bezokienkowym czy okienkowym. Zmienna `app` przechowuje aplikację *Bevy*. W zależności od wartości flagi, dodawane są odpowiednie wtyczki. Wtyczka `MinimalPlugins` dodaje minimalny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie bezokienkowym, a `DefaultPlugins` dodaje domyślny zestaw wtyczek, który jest potrzebny do uruchomienia symulacji w trybie okienkowym. Następnie wstawiany jest zasób `World` z nowym światem, któremu przekazywane są ustawienia z pliku konfiguracyjnego, `Config` z ustawieniami konfiguracyjnymi, `Generation` z aktualnym pokoleniem. Następnie dodawane są systemy, które mają zostać wykonane w trakcie działania symulacji. Istnieją dwie kategorie systemów `Startup` i `Update`. Systemy należące do grupy `Startup` sa uruchamiane tylko raz na początku symulacji, a systemy z grupy `Update` są wykonywane w każdej klatce symulacji. Systemy z grupy `Startup` odpowiadają za inicjalizację symulacji oraz potrzebnych plików do zapisywania danych, natomiast te z grupy `Update` - odpowiadają za aktualizację stanu symulacji, ruch jednostek, polowanie, rozmnażanie, zapisywanie danych, obsługę kamery oraz usuwanie martwych jednostek. Na końcu uruchamiana jest symulacja za pomocą metody `run`. Systemy są wykonywane równolegle, co pozwala na zwiększenie wydajności symulacji. Wyjątkiem jest system `hunting`, który jest wykonywany przed systemami: `render_organisms`, `render_predators`, `organism_movement`, `predator_movement`, `organism_sync`, `predator_sync`, `despawn_dead_organisms`, `despawn_dead_predators`, `regenerate_food`, `consume_food`, `overcrowding`, `biome_adaptation`, `reproduction`, `predator_reproduction`, `increment_generation`, `log_organism_data`, `log_world_data`, `handle_camera_movement`. Rozwiązanie to jest spowodowane tym, że gdy ofiara zostanie zjedzona, to musi zniknąć z planszy, przez co mogło zdarzyć się, że system odpowiedzialny za polowanie próbował zjeść ofiarę, której nie było już na planszy, co powodowało błąd krytyczny w programie. W ten sposób można uniknąć tego problemu. Negatywną konsekwencją tego rozwiązania jest to, że planer (ang. _scheduler_) musi wykonać więcej pracy i może to wpłynąć niekorzystnie na wydajność symulacji.
 
 #figure(
   ```rust
@@ -615,7 +618,7 @@ W listingu 9 przedstawiony jest system `spawn_world`, który odpowiada za stworz
   supplement: "Listing",
 )
 
-Listing 10 przedstawia system `spawn_organisms`, który odpowiada za stworzenie ofiar na planszy. Dla każdej ofiary losowana jest pozycja na planszy. Następnie dodawana jest tolerancja terenu w zależności od rodzaju terenu, na którym znajduje się ofiara. Wyższa wartość tolerancji terenu oznacza lepsze do niego przystosowanie. Im bliżej tolerancji terenu do 0.0, tym ofiara gorzej przystosowana jest do danego terenu. Tolerancja terenu jest losową liczbą z przedziału [0.1, 0.8] dla terenów, na których nie znajduje się ofiara oraz z przedziału [1.0, 1.5] dla terenu, na którym ofiara się znajduje. Rozwiązanie te ma odzwierciedlać lepsze przystosowanie jednostek do terenu, na którym żyją.
+Listing 10 przedstawia system `spawn_organisms`, który odpowiada za stworzenie ofiar na planszy. Dla każdej ofiary losowana jest pozycja na planszy. Następnie dodawana jest tolerancja terenu w zależności od rodzaju terenu, na którym znajduje się ofiara. Wyższa wartość tolerancji terenu oznacza lepsze przystosowanie do niego. Im wartość tolerancji terenu bliższe 0, tym ofiara gorzej przystosowana jest do danego terenu. Tolerancja terenu jest losową liczbą z przedziału [0.1, 0.8] dla terenów, na których nie znajduje się ofiara oraz z przedziału [1.0, 1.5] dla terenu, na którym ofiara się znajduje. Rozwiązanie te ma odzwierciedlać lepsze przystosowanie jednostek do terenu, na którym żyją.
 
 #figure(
   ```rust
@@ -786,7 +789,7 @@ Listingi 13 i 14 przedstawiają systemy `render_organisms` i `render_predators`,
   supplement: "Listing",
 )
 
-W listingu 15 przedstawiony jest system `organism_movement`, który odpowiada za ruch ofiar na planszy. Dla każdej ofiary losowana jest nowa pozycja na planszy. Następnie obliczany jest najlepszy kierunek ruchu na podstawie kosztu ruchu. Koszt ruchu zależy od rodzaju terenu, na którym znajduje się ofiara oraz tolerancji terenu. Im większa tolerancja terenu, tym mniejszy koszt ruchu. Koszt ruchu jest losowany z przedziału [0.0, 5.0]. Następnie obliczana jest nową pozycja ofiary na planszy, a także zużytą energię na podstawie prędkości i rozmiaru ofiary. Jeśli ofiara znajduje się na wodzie, to energia przyjmuje wartość -1.0, co oznacza, że ofiara umiera. W ten sposób ofiary są bardziej przystosowane do terenu, na którym się znajdują. Możliwych jest osiem kierunków ruchu: góra, dół, lewo, prawo oraz po skosach. Energia ofiary zmniejsza się w zależności od prędkości i rozmiaru. Im większa prędkość i rozmiar ofiary, tym więcej energii zużywa na ruch.
+W listingu 15 przedstawiony jest system `organism_movement`, który odpowiada za ruch ofiar na planszy. Dla każdej ofiary losowana jest nowa pozycja na planszy. Następnie obliczany jest najlepszy kierunek ruchu na podstawie kosztu ruchu. Koszt ruchu zależy od rodzaju terenu, na którym znajduje się ofiara oraz tolerancji terenu. Im większa tolerancja terenu, tym mniejszy koszt ruchu. Koszt ruchu jest losowany z przedziału [0.0, 5.0]. Następnie obliczana jest nowa pozycja ofiary na planszy, a także zużyta energia na podstawie prędkości i rozmiaru ofiary. Jeśli ofiara znajduje się na wodzie, to energia przyjmuje wartość -1.0, co oznacza, że ofiara umiera. W ten sposób ofiary są bardziej przystosowane do terenu, na którym się znajdują. Możliwych jest osiem kierunków ruchu: góra, dół, lewo, prawo oraz po skosach. Energia ofiary zmniejsza się w zależności od prędkości i rozmiaru. Im większa prędkość i rozmiar ofiary, tym więcej energii zużywa na ruch.
 
 #figure(
   ```rust
@@ -1564,7 +1567,7 @@ Dane z pliku `world_data.jsonl` są wczytywane i przetwarzane. Istotne jest to, 
 
 == Wyniki
 
-Przedstawię kilka scenariuszy symulacji z różnymi ustawieniami konfiguracyjnymi.
+W ninejszym podrozdziale przedstawię kilka scenariuszy symulacji z różnymi ustawieniami konfiguracyjnymi.
 
 #figure(
   image("plots/1_scenario_01_mutability/world_biome_map.png"),
@@ -1572,7 +1575,7 @@ Przedstawię kilka scenariuszy symulacji z różnymi ustawieniami konfiguracyjny
 )
 
 === Scenariusz 1 - Wpływ poziomu mutacji na adaptację populacji
-Sprawdzam jak zmienia się zdolność przetrwania ofiar i drapieżników w zależności od poziomu mutacji.
+W tym scenariuszu badam jak zmienia się zdolność przetrwania ofiar i drapieżników w zależności od poziomu mutacji.
 
 - Konfiguracja pierwszego wariantu scenariusza (bardzo niski poziom mutacji):
   - Początkowa liczba ofiar: 5
@@ -1686,7 +1689,7 @@ Sprawdzam jak zmienia się zdolność przetrwania ofiar i drapieżników w zale�
 )
 
 === Scenariusz 2 - Wpływ drapieżników na populację ofiar
-Sprawdzam czy ofiary bez drapieżników szybciej się rozmnażają i może nawet cierpią z powodu przeludnienia oraz jak silna presja drapieżników wpływa na populację ofiar.
+W scenariuszu 2 badam, czy ofiary bez drapieżników szybciej się rozmnażają lub cierpią z powodu przeludnienia oraz jak silna presja drapieżników wpływa na populację ofiar.
 
 - Konfiguracja pierwszego wariantu scenariusza (brak drapieżników):
   - Początkowa liczba ofiar: 10
@@ -1762,7 +1765,7 @@ Sprawdzam czy ofiary bez drapieżników szybciej się rozmnażają i może nawet
 )
 
 === Scenariusz 3 - Wpływ dostępności jedzenia na populację ofiar
-Sprawdzam jak wpływa na populację zmiana zasobności środowiska w jedzenie. Czy organizmy lepiej przystosowują się do terenu bogatego w jedzenie?
+W scenariuszu 3 badam, jak wpływa na populację zmiana zasobności środowiska w jedzenie. Czy organizmy lepiej przystosowują się do terenu bogatego w jedzenie?
 Czy populacja jest w stanie przetrwać w jałowym środowisku?
 - Konfiguracja pierwszego wariantu scenariusza (jałowe środowisko, brak drapieżników):
   - Las - poziom regeneracji jedzenia: 0.05
@@ -1925,14 +1928,14 @@ W każdej konfiguracji limit wszystkich organizmów wynosi 100 000.
 Przeprowadzona symulacja pozwoliła zaobserwować, jak różne czynniki środowiskowe i parametry ewolucyjne wpływają na kształtowanie się populacji oraz cech organizmów w czasie. W oparciu o wykonane scenariusze można sformułować następujące wnioski:
 
 === Wpływ poziomu mutacji
-W tym scenariuszu można zauważyć, że zbyt niski poziom mutacji ogranicza zdolności adaptacyjne organizmów. W takich warunkach populacja drapieżników nie jest w stanie przetrwać, nie potrafiła dostosować się do zmieniającego się środowiska. Z kolei zbyt wysoki poziom mutacji prowadził do niestabilności cech, co skutkowało chaotycznym rozkładem przystosowań i częstymi wahaniami populacji. Optymalne rezultaty adaptacyjne pojawiły się przy średnim poziomie mutacji, gdzie ewolucja zachodziła w sposób zrównoważony.
+W tym scenariuszu można zauważyć, że zbyt niski poziom mutacji ogranicza zdolności adaptacyjne organizmów. W takich warunkach populacja drapieżników nie jest w stanie przetrwać i nie potrafi dostosować się do zmieniającego się środowiska. Z kolei zbyt wysoki poziom mutacji prowadził do niestabilności cech, co skutkowało chaotycznym rozkładem przystosowań i częstymi wahaniami populacji. Optymalne rezultaty adaptacyjne pojawiły się przy średnim poziomie mutacji, gdzie ewolucja zachodziła w sposób zrównoważony.
 
 === Rola drapieżników
-Drugi scenariusz pokazał. że obecność drapieżników pełni istotna rolę w regulacji populacji ofiar. W warunkach bez drapieżników ofiary rozmnażały się w szybkim tempie, co prowadziło do przeludnienia i wyczerpania zasobów. Wprowadzenie umiarkowanej presji drapieżników pomagało ustabilizować populację oraz promowało selekcję korzystnych cech, takich jak szybkość czy niższy próg reprodukcji. Co ciekawe, spodziewałem się, że presja drapieżników wpłynie na ewolucję ofiar w taki sposób, że będa one co raz mniejsze, szybciej bedą sie przemieszczać i będą miały mniejszy próg reprodukcji. W rzeczywistości okazało się, że ofiary ewoluowały w kierunku większych rozmiarów i ich próg reprodukcji wzrastał.
+Drugi scenariusz pokazał, że obecność drapieżników pełni istotna rolę w regulacji populacji ofiar. W warunkach bez drapieżników ofiary rozmnażały się w szybkim tempie, co prowadziło do przeludnienia i wyczerpania zasobów. Wprowadzenie umiarkowanej presji drapieżników pomagało ustabilizować populację oraz promowało selekcję korzystnych cech, takich jak szybkość czy niższy próg reprodukcji. Co ciekawe, spodziewałem się, że presja drapieżników wpłynie na ewolucję ofiar w taki sposób, że będa one coraz mniejsze, szybciej bedą sie przemieszczać i będą miały mniejszy próg reprodukcji. W rzeczywistości okazało się, że ofiary ewoluowały w kierunku większych rozmiarów i ich próg reprodukcji wzrastał.
 Silna presja drapieżników powodowała wyginięcie ofiar i przez to updek populacji drapieżników.
 
 === Dostępność jedzenia i środowisko
-W trzecim scenariuszu zauważono, że zróżnicowanie środowiska (jałowe, normalne i bogate) znacząco wpływały na strategie przetrwania ofiar. W bogatych środowiskach ofiary rozwijały się szybciej, ale również szybciej dochodziło do przeludnienia. W środowiskach jałowych przeżywały tylko najlepiej przystosowane jednostki, a tempo reprodukcji i wzrost populacji było znacznie wolniejsze. Występowała również wyraźna adaptacja do preferowanego typu terenu.
+W trzecim scenariuszu zauważyłem, że zróżnicowanie środowiska (jałowe, normalne i bogate) znacząco wpływały na strategie przetrwania ofiar. W bogatych środowiskach ofiary rozwijały się szybciej, ale również szybciej dochodziło do przeludnienia. W środowiskach jałowych przeżywały tylko najlepiej przystosowane jednostki, a tempo reprodukcji i wzrost populacji było znacznie wolniejsze. Występowała również wyraźna adaptacja do preferowanego typu terenu.
 
 = Podsumowanie
 Celem niniejszej pracy było stworzenie modelu symulującego procesy ewolucyjne w środowisku przy użyciu automatów komórkowych oraz architketury ECS. Zrealizowana symulacja pozwoliła zaobserwować, jak złożone zachowania mogą wyłaniać się z prostych reguł lokalnych, oraz jak zmienne środowiskowe i parametry organizmów wpływają na ich ewolucję.
@@ -1944,7 +1947,7 @@ Największym zaskoczeniem była obserwacja, że pod wpływem silnej presji drapi
 Ostatecznie praca ta pokazuje, że nawet bardzo uproszczone modele mogą doprowadzić do interesujących i złożonych wyników, które przypominają prawdziwe procesy biologiczne. Warto podkreślić. że zastosowanie języka Rust oraz architektury ECS pozwoliło mi na efektywne zarządzanie dużą liczbą jednostek w czasie rzeczywistym, co czyni stworzoną symulację dobrym punktem wyjścia do dalszych eksperymentów i potencjalnego rozwoju symulacji.
 
 == Kierunki dalszego rozwoju
-Ten model można rozszerzyć na wiele sposobów:
+Ten model można rozszerzyć na wiele sposobów, m. in.:
 - Wprowadzenie mechanizmów uczenia lub pamięci (np. zachowanie preferencji terenowych).
 - Symulacja więcej niż dwóch gatunków i zależność między nimi (np. pasożytnictwo, konkurencja).
 - Wprowadzenie zmiennych klimatycznych (np. sezonowość, globalne ocieplenie).
