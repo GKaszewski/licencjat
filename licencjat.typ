@@ -1,9 +1,12 @@
+#import "@preview/muchpdf:0.1.0": muchpdf
 
 #set text(lang: "pl")
 #set par(
   justify: true,
   leading: 0.52em,
 )
+
+#muchpdf(read("StronaTytulowa_281113.pdf", encoding: none))
 
 #let title = [
   Modelowanie procesów ewolucyjnych za pomocą automatów komórkowych
