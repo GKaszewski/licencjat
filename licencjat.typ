@@ -1619,6 +1619,9 @@ W tym scenariuszu badam jak zmienia się zdolność przetrwania ofiar i drapież
   caption: "Wykres populacji ofiar i drapieżników w czasie (wysoki poziom mutacji)",
 )
 
+Rys. 2-5 pokazują przebieg zmian liczebności populacji ofiar i drapieżników dla czterech poziomów mutacji (bardzo niski, niski, średni i wysoki).
+Dla bardzo niskiego poziomu mutacji (rys. 2) widoczny jest powolny wzrost populacji ofiar, jednak drapieżniki nie nadążają z reprodukcją i ostatecznie wygasają. Przy niskim poziomie mutacji (rys. 3) populacja ofiar osiąga stabilny stan, ale wciąż brakuje wystarczającej różnorodności cech, by drapieżniki utrzymały się przez dłuższy czas. Średni poziom mutacji (rys. 4) daje najbardziej zbalansowany przebieg: ofiary i drapieżniki osiągają współegzystencję o niewielkich fluktuacjach, co sugeruje optymalny kompromis między ekspolracją nowych cech, a utrzymaniem adaptacyjności. Natomiast wysoki poziom mutacji (rys. 5) prowadzi do silnych wahań liczebności obu populacji, co jest efektem niestabilności genetycznej i zbyt gwałtownych zmian w progu reprodukcji.
+
 #figure(
   image("plots/1_scenario_0_01_mutability/biome_trends.png"),
   caption: "Trendy preferencji terenowych ofiar w czasie (bardzo niski poziom mutacji)",
@@ -1639,6 +1642,8 @@ W tym scenariuszu badam jak zmienia się zdolność przetrwania ofiar i drapież
   caption: "Trendy preferencji terenowych ofiar w czasie (wysoki poziom mutacji)",
 )
 
+Rys. 6-9 ilustrują, jak zmieniają się preferencje terenowe ofiar w czasie dla kolejnych poziomów mutacji. W warunkach bardzo niskiej mutacji (rys. 6) ofiary silnie preferuja biotopy o najwyższej początkowej tolerancji, co prowadzi do szybkiego przeludnienia tych stref. Zwiększenie mutowalności powoduje stopniowe rozproszenie preferencji - przy średnim poziomie mutacji (rys. 8) zaobserwowano bardziej równomierny rozkład tolerancji, co przekłada się na lepsze wykorzystanie zasobów. Przy wysokim poziomie mutacji (rys. 9) adaptacja do każdego typu terenu jest na tyle dynamiczna, że nie tworzą się długotrwałe ogniska przeludnienia, lecz populacja eksperymentuje ze wszystkimi biotopami.
+
 #figure(
   image("plots/1_scenario_0_01_mutability/traits_evolution.png"),
   caption: "Ewolucja cech ofiar i drapieżników w czasie (bardzo niski poziom mutacji)",
@@ -1658,6 +1663,8 @@ W tym scenariuszu badam jak zmienia się zdolność przetrwania ofiar i drapież
   caption: "Ewolucja cech ofiar i drapieżników w czasie (wysoki poziom mutacji)",
 )
 
+Rys. 10-13 pokazują, jak w kolejnych pokoleniach zmieniają się średnie wartości kluczowych cech (rozmiar, prędkość, energia, próg rozmnażania) ofiar i drapieżników przy czterech poziomach mutacji. W wariancie bardzo niskiej mutacji (rys. 10) zaobserwowano niemal płaskie krzywe, co świadczy o minimalnej zmianie cech w czasie. Przy niskiej mutacji (rys. 11) widoczny jest powolny, ale systematyczny wzrost średniej energii i prędkości ofiar, sugerujący łagodną presję selekcyjną. Średni poziom mutacji (rys. 12) prowadzi do szybszej optymalizacji cech, gdzie drapieżniki stają sie efektywniejsze, a ofiary nieznacznie zwiększają rozmiar i prędkość, co wskazuje na dobrze zbalansowaną adaptację. Natomiast przy wysokim poziomie mutacji (rys. 13) krzywe gwałtownie oscylują, sygnalizując niestabilność genetyczną i brak trwałego trendu adaptacyjnego.
+
 #figure(
   image("plots/1_scenario_0_01_mutability/hunting_efficiency_trends.png"),
   caption: "Wydajność polowania drapieżników w czasie (bardzo niski poziom mutacji)",
@@ -1674,6 +1681,9 @@ W tym scenariuszu badam jak zmienia się zdolność przetrwania ofiar i drapież
   image("plots/1_scenario_02_mutability/hunting_efficiency_trends.png"),
   caption: "Wydajność polowania drapieżników w czasie (wysoki poziom mutacji)",
 )
+
+Rys. 14-17 przedstawiają zmiany średniej wydajności polowania drapieżników dla tych samych czterech poziomów mutacji. Przy bardzo niskiej mutacji (rys. 14) efektywność utrzymuje się blisko wartości początkowej, co oznacza słabą adaptację do strategii łowieckiej. Niska mutacja (rys. 15) skutkuje stopniowym wzrostem efektywności. Średni poziom mutacji (rys. 16) sprzyja szybkiemu osiągnięciu maksymalnej efektywności i jej stabilizacji, natomiast przy wysokim poziomie mutacji (rys. 17) wydajność podlega dużym wahaniom, co wskazuje na ciągłe testowanie eksteremalnych strategii łowieckich.
+
 #figure(
   image("plots/1_scenario_0_01_mutability/reproduction_threshold_trends.png"),
   caption: "Trendy progu reprodukcji ofiar i drapieżników w czasie (bardzo niski poziom mutacji)",
@@ -1690,6 +1700,8 @@ W tym scenariuszu badam jak zmienia się zdolność przetrwania ofiar i drapież
   image("plots/1_scenario_02_mutability/reproduction_threshold_trends.png"),
   caption: "Trendy progu reprodukcji ofiar i drapieżników w czasie (wysoki poziom mutacji)",
 )
+
+Rys. 18-21 ilustrują ewolucję średniego progu rozmnażania w czterech wariantach mutacji. W przypadku bardzo niskiej mutacji (rys. 18) próg niemal nie zmienia się, co świadczy o braku selekcji w kierunku optymalnego kosztu rozmnażania. Niska mutacja (rys. 19) prowadzi do łagodnego obniżenia progu, co przyspiesza reprodukcję, ale bez destabilizacji systemu. Średni poziom mutacji (rys. 20) skutkuje wyraźnym spadkiem progu do wartości równoważącej tempo reprodukcji i przeżywalność, natomiast przy wysokiej mutacji (rys. 21) próg znacząco oscyluje, odzwierciedlając nieregularne zmiany genetyczne.
 
 === Scenariusz 2 - Wpływ drapieżników na populację ofiar
 W scenariuszu 2 badam, czy ofiary bez drapieżników szybciej się rozmnażają lub cierpią z powodu przeludnienia oraz jak silna presja drapieżników wpływa na populację ofiar.
@@ -1724,6 +1736,8 @@ W scenariuszu 2 badam, czy ofiary bez drapieżników szybciej się rozmnażają 
   caption: "Wykres populacji ofiar i drapieżników w czasie (wysoka presja drapieżników)",
 )
 
+Rys. 22-24 pokazują dynamikę populacji w trzech wariantach presji drapieżników: brak, normalna i wysoka. Bez drapieżników (rys. 22) ofiary rosną niemal wykładniczo, co prowadzi do przeludnienia i wzrostu presji na zasoby. W wariancie z umiarkowaną presją (rys. 23) widoczna jest stabilizacja liczebności, drapieżniki utrzymują populację ofiar w równowadze, co sprzyja również utrzymaniu zróżnicowania cech. Natomiast wysoka presja drapieżników (rys. 24) prowadzi do wyginięcia ofiar, a w konsekwencji do katastrofalnego spadku drapieżników, co obrazuje kruchą współzależność obu populacji.
+
 #figure(
   image("plots/2_scenario_0_predators/reproduction_threshold_trends.png"),
   caption: "Trendy progu reprodukcji ofiar i drapieżników w czasie (brak drapieżników)",
@@ -1739,6 +1753,8 @@ W scenariuszu 2 badam, czy ofiary bez drapieżników szybciej się rozmnażają 
   caption: "Trendy progu reprodukcji ofiar i drapieżników w czasie (wysoka presja drapieżników)",
 )
 
+Rys. 25-27 ukazują zachowanie średniego progu reprodukcji ofiar i drapieżników w scenariuszu 2: bez drapieżników (rys. 25), przy normalnej presji (rys. 26) i wysokiej presji drapieżników (rys. 27). W wariancie braku drapieżników próg reprodukcji ofiar nieznacznie rośnie. W normalnej presji drapieżników (rys. 26) próg reprodukcji ofiar wzrasta, a drapieżników ciągle spada, co sugeruje, że ofiary gromadzą dużo energii i to powoduje, że ich próg reprodukcji rośnie, natomiast u drapieżników próg reprodukcji maleje przez to, że sporą część energii zużywają na polowanie. W wariancie wysokiej presji drapieżników (rys. 27) trend ofiar jest taki sam jak w przypadku normalnej presji, natomiast u drapieżników do momentu wyginięcia ofiar trend jest malejący, a następnie rośnie.
+
 #figure(
   image("plots/2_scenario_0_predators/traits_evolution.png"),
   caption: "Ewolucja cech ofiar i drapieżników w czasie (brak drapieżników)",
@@ -1751,6 +1767,8 @@ W scenariuszu 2 badam, czy ofiary bez drapieżników szybciej się rozmnażają 
   image("plots/2_scenario_40_predators/traits_evolution.png"),
   caption: "Ewolucja cech ofiar i drapieżników w czasie (wysoka presja drapieżników)",
 )
+
+Rys. 28-30 przedstawiają zmiany kluczowych cech (rozmiar, prędkość, energia) ofiar i drapieżników w scenariuszu 2: brak drapieżników (rys. 28), normalna presja drapieżników (rys. 29) i wysoka presja drapieżników (rys. 30). W przypadku braku drapieżników, cechy ewoluują powoli i kierunkowo ku większym rozmiarom i mniejszym prędkościom, bez silnej presji selekcyjnej. W normalnej presji ofiary stają się coraz większe, a ich prędkość jest stabilna, co jest zaskakujące, ponieważ sądziłem, że drapieżniki będą wymuszać większą prędkość i mniejsze rozmiary. Wysoka presja drapieżników prowadzi do szybszego tempa ewolucji cech drapieżników, którzy stają się jeszcze bardziej efektywni, co skutkuje szybkim wyginięciem ofiar i drapieżników.
 
 #figure(
   image("plots/2_scenario_0_predators/food_trends.png"),
@@ -1766,6 +1784,8 @@ W scenariuszu 2 badam, czy ofiary bez drapieżników szybciej się rozmnażają 
   image("plots/2_scenario_40_predators/food_trends.png"),
   caption: "Dostępność jedzenia w czasie (wysoka presja drapieżników)",
 )
+
+Rys. 31-33 ilustrują zmiany dostępności pożywienia w zależności od obecności drapieżników. W warunkach braku drapieżników (rys. 31) zasoby pokarmowe szybko się wyczerpują w wyniku nadmiernego rozmnażania ofiar. W normalnej presji (rys. 32) tempo zużycia jest wolniejsze, co pozwala na cykliczne odnawianie się pokarmu i utrzymanie stabilnej populacji. W wariancie wysokiej presji drapieżników (rys. 33) dostępnośc jedzenia spada najszybciej, a kolejne pokolenia doświadczają gwałtownych niedoborów, co prowadzi do wyginięcia ofiar i drapieżników.
 
 === Scenariusz 3 - Wpływ dostępności jedzenia na populację ofiar
 W scenariuszu 3 badam, jak wpływa na populację zmiana zasobności środowiska w jedzenie. Czy organizmy lepiej przystosowują się do terenu bogatego w jedzenie?
@@ -1800,6 +1820,7 @@ W każdej konfiguracji limit wszystkich organizmów wynosi 100 000.
   image("plots/3_scenario_poor_env/population_trends.png"),
   caption: "Wykres populacji ofiar i drapieżników w czasie (jałowe środowisko)",
 )
+
 #figure(
   image("plots/3_scenario_standard_env_no_predators/population_trends.png"),
   caption: "Wykres populacji ofiar i drapieżników w czasie (normalne środowisko, brak drapieżników)",
@@ -1816,6 +1837,9 @@ W każdej konfiguracji limit wszystkich organizmów wynosi 100 000.
   image("plots/3_scenario_rich_env/population_trends.png"),
   caption: "Wykres populacji ofiar i drapieżników w czasie (bardzo bogate środowisko)",
 )
+
+Rys. 34-39 przedstawiają dynamikę populacji ofiar i drapieżników w trzech scenariuszach: jałowe środowisko bez drapieżników (rys. 34), jałowe środowisko z drapieżnikami (rys. 35), normalne środowisko bez drapieżników (rys. 36), normalne środowisko z drapieżnikami (rys. 37), bardzo bogate środowisko bez drapieżników (rys. 38) oraz bardzo bogate środowisko z drapieżnikami (rys. 39). To co można zaobserwować to, że im bardziej bogate środowisko to szybciej populacja ofiar osiąga limit ustawiony w konfiguracji symulacji.
+
 #figure(
   image("plots/3_scenario_poor_env_no_predators/reproduction_threshold_trends.png"),
   caption: "Trendy progu reprodukcji ofiar i drapieżników w czasie (jałowe środowisko, brak drapieżników)",
