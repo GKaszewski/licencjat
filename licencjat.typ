@@ -1927,6 +1927,8 @@ Rys. 34-39 przedstawiają dynamikę populacji ofiar i drapieżników w trzech sc
   caption: "Mapa cieplna populacji ofiar i drapieżników w czasie (jałowe środowisko, normalne środowisko, bogate środowisko)",
 )
 
+Na rys. 53 w wariancie bogatego środowiska są widoczne dwa skupiska organizmów. Wyższe skupisko jest na polanie, a drugie skupisko jest w lesie.
+
 #figure(
   image("plots/3_scenario_poor_env_no_predators/biome_trends.png"),
   caption: "Trendy preferencji terenowych ofiar w czasie (jałowe środowisko, brak drapieżników)",
@@ -1951,6 +1953,8 @@ Rys. 34-39 przedstawiają dynamikę populacji ofiar i drapieżników w trzech sc
   image("plots/3_scenario_rich_env/biome_trends.png"),
   caption: "Trendy preferencji terenowych ofiar w czasie (bardzo bogate środowisko)",
 )
+
+Na rys. 54-59 przedstawiono zmiany preferencji terenowych ofiar w czasie dla trzech scenariuszy: jałowe środowisko bez drapieżników (rys. 54), jałowe środowisko z drapieżnikami (rys. 55), normalne środowisko bez drapieżników (rys. 56), normalne środowisko z drapieżnikami (rys. 57), bardzo bogate środowisko bez drapieżników (rys. 58) oraz bardzo bogate środowisko z drapieżnikami (rys. 59). Można zauważyć, że generalnie nie ma widocznych różnic w preferencjach terenowych ofiar w zależności od dostępności jedzenia.
 == Podsumowanie wyników i wnioski
 Przeprowadzona symulacja pozwoliła zaobserwować, jak różne czynniki środowiskowe i parametry ewolucyjne wpływają na kształtowanie się populacji oraz cech organizmów w czasie. W oparciu o wykonane scenariusze można sformułować następujące wnioski:
 
@@ -1962,7 +1966,7 @@ Drugi scenariusz pokazał, że obecność drapieżników pełni istotna rolę w 
 Silna presja drapieżników powodowała wyginięcie ofiar i przez to updek populacji drapieżników.
 
 === Dostępność jedzenia i środowisko
-W trzecim scenariuszu zauważyłem, że zróżnicowanie środowiska (jałowe, normalne i bogate) znacząco wpływały na strategie przetrwania ofiar. W bogatych środowiskach ofiary rozwijały się szybciej, ale również szybciej dochodziło do przeludnienia. W środowiskach jałowych przeżywały tylko najlepiej przystosowane jednostki, a tempo reprodukcji i wzrost populacji było znacznie wolniejsze. Występowała również wyraźna adaptacja do preferowanego typu terenu.
+W trzecim scenariuszu zauważyłem, że zróżnicowanie środowiska (jałowe, normalne i bogate) znacząco wpływały na strategie przetrwania ofiar. W bogatych środowiskach ofiary rozwijały się szybciej, ale również szybciej dochodziło do przeludnienia. W środowiskach jałowych przeżywały tylko najlepiej przystosowane jednostki, a tempo reprodukcji i wzrost populacji było znacznie wolniejsze.
 
 = Podsumowanie
 Celem niniejszej pracy było stworzenie modelu symulującego procesy ewolucyjne w środowisku przy użyciu automatów komórkowych oraz architketury ECS. Zrealizowana symulacja pozwoliła zaobserwować, jak złożone zachowania mogą wyłaniać się z prostych reguł lokalnych, oraz jak zmienne środowiskowe i parametry organizmów wpływają na ich ewolucję.
